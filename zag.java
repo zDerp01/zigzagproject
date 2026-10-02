@@ -14,6 +14,6 @@ public class zag extends Player
      */
     public void act()
     {
-        // Add your action code here.
+        super.act();
     }
 }

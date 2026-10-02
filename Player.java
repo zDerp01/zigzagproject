@@ -6,23 +6,26 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Player extends Actor
+public class Player extends Sprite
 {
+    int gravity, speed;
     
-    public Player() {
-        GreenfootImage image = getImage();
-        int width = image.getWidth() * 2;
-        int height = image.getHeight() * 2;
-        
-        image.scale(width, height);
-        setImage(image);
-    }
     /**
      * Act - do whatever the Player wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act()
     {
-        // Add your action code here.
+        fall();
+    }
+    
+    public void fall() {
+        if (!isTouching(Ground.class)) {
+            gravity++;
+        }
+        else {
+            gravity = 0;
+        }
+        setLocation(getX(), getY() + gravity);
     }
 }

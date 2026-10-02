@@ -15,6 +15,17 @@ public class level1 extends Level
      */
     public level1()
     {
-        addObject(new island1(), 823, 903);
+        addObject(new street_top(), 209, 904);
+        addObject(new street_bottom(), 209, 968);
+        
+        addObject(new street_top(), 696, 904);
+        addObject(new street_bottom(), 696, 968);
+        
+        addObject(new street_top(), 1183, 904);
+        addObject(new street_bottom(), 1183, 968);
+        
+        addObject(new street_top(), 1670, 904);
+        addObject(new street_bottom(), 1670, 968);
+        //addObject(new zig(), 798, 520);
     }
 }
