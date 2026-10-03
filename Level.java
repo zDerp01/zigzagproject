@@ -16,8 +16,8 @@ public class Level extends World
     public Level()
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(2000, 1000, 1, false);
-        getBackground().setColor(new Color(0, 0, 38));
+        super(1800, 1000, 1, false);
+        getBackground().setColor(new Color(40, 40, 50));
         getBackground().fill();
     }
 }

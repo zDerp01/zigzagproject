@@ -16,4 +16,30 @@ public class zag extends Player
     {
         super.act();
     }
+    
+    @Override
+    public void move() {
+        int moveFactor;
+        
+        if (Greenfoot.isKeyDown("left")) {
+            moveFactor = -GetSpeed();
+            setImage(GetImageLeft());
+        }
+        else if (Greenfoot.isKeyDown("right")) {
+            moveFactor = GetSpeed();
+            setImage(GetImageRight());
+        }
+        else {
+            moveFactor = 0;
+        }
+        
+        setLocation(getX() + moveFactor, getY());
+    }
+    
+    @Override
+    public void jump() {
+        if (isTouching(Ground.class) && Greenfoot.isKeyDown("up")) {
+            SetGravity(GetJumpStrength());
+        }
+    }
 }
