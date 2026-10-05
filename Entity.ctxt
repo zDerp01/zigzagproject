@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.target=Entity
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Character\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=Entity()
+comment2.params=
+comment2.target=greenfoot.GreenfootImage\ GetImageLeft()
+comment3.params=
+comment3.target=greenfoot.GreenfootImage\ GetImageRight()
+comment4.params=image
+comment4.target=void\ SetImageLeft(greenfoot.GreenfootImage)
+comment5.params=image
+comment5.target=void\ SetImageRight(greenfoot.GreenfootImage)
+comment6.params=
+comment6.target=void\ act()
+comment6.text=\r\n\ Act\ -\ do\ whatever\ the\ Character\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+numComments=7

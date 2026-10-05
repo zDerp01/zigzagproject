@@ -1,37 +1,21 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Player here.
+ * Write a description of class Enemy here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public abstract class Player extends Entity
+public abstract class Enemy extends Entity
 {
-    private int gravity, speed = 4, jumpStrength = -10;
+    private int gravity;
     
     public int GetGravity() {
         return gravity;
     }
     
-    public int GetSpeed() {
-        return speed;
-    }
-    
-    public int GetJumpStrength() {
-        return jumpStrength;
-    }
-    
     public void SetGravity(int num) {
         gravity = num;
-    }
-    
-    public void SetSpeed(int num) {
-        speed = num;
-    }
-    
-    public void SetJumpStrength(int num) {
-        jumpStrength = num;
     }
     
     // --------------------------------------------
@@ -42,14 +26,8 @@ public abstract class Player extends Entity
      */
     public void act()
     {
-        move();
         fall();
-        jump();
     }
-    
-    public abstract void move();
-
-    public abstract void jump();
     
     public void fall() {
         if (!isTouching(Ground.class)) {
