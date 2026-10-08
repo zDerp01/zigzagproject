@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Spots
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Spots\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=Player\ GetHiddenPlayer()
+comment2.params=player
+comment2.target=void\ SetHiddenPlayer(Player)
+comment3.params=
+comment3.target=void\ act()
+comment3.text=\r\n\ Act\ -\ do\ whatever\ the\ Spots\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment4.params=
+comment4.target=void\ OnInteract()
+numComments=5

@@ -8,30 +8,39 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public abstract class Player extends Entity
 {
-    private int gravity, speed = 4, jumpStrength = -10;
+    private int _gravity, _speed = 4, _jumpStrength = -10;
+    private boolean _isHidden = false;
     
     public int GetGravity() {
-        return gravity;
+        return _gravity;
     }
     
     public int GetSpeed() {
-        return speed;
+        return _speed;
     }
     
     public int GetJumpStrength() {
-        return jumpStrength;
+        return _jumpStrength;
+    }
+    
+    public boolean IsHidden() {
+        return _isHidden;
     }
     
     public void SetGravity(int num) {
-        gravity = num;
+        _gravity = num;
     }
     
     public void SetSpeed(int num) {
-        speed = num;
+        _speed = num;
     }
     
     public void SetJumpStrength(int num) {
-        jumpStrength = num;
+        _jumpStrength = num;
+    }
+    
+    public void SetIsHidden(boolean state) {
+        _isHidden = state;
     }
     
     // --------------------------------------------
@@ -42,22 +51,26 @@ public abstract class Player extends Entity
      */
     public void act()
     {
-        move();
-        fall();
-        jump();
+        if (!_isHidden) {
+            move();
+            fall();
+            jump();
+        }
     }
     
     public abstract void move();
 
     public abstract void jump();
     
+    public abstract Spots interactedWithSpot();
+    
     public void fall() {
         if (!isTouching(Ground.class)) {
-            gravity++;
+            _gravity++;
         }
-        else if (gravity > 0) {
-            gravity = 0;
+        else if (_gravity > 0) {
+            _gravity = 0;
         }
-        setLocation(getX(), getY() + gravity);
+        setLocation(getX(), getY() + _gravity);
     }
 }

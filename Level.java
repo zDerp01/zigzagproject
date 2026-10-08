@@ -8,6 +8,11 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Level extends World
 {
+    private String _pressedKey;
+    
+    public String getPressedKey() {
+        return _pressedKey;
+    }
 
     /**
      * Constructor for objects of class Level.
@@ -19,5 +24,9 @@ public class Level extends World
         super(1800, 1000, 1, false);
         getBackground().setColor(new Color(40, 40, 50));
         getBackground().fill();
+    }
+    
+    public void act() {
+        _pressedKey = Greenfoot.getKey();
     }
 }

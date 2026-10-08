@@ -15,9 +15,10 @@ public class capanga extends Enemy
         AGGRESSIVE
     }
     
-    private int patrolCounter, patrolTime = 1000, directionFactor = 1, visionRange = 500;
+    private int patrolCounter, patrolTime = 1400, directionFactor = 1, visionRange = 500;
     private float speed = 1.2f;
     private State estadoAtual = State.PATROL;
+    private Player currentTarget;
     
     /**
      * Act - do whatever the capanga wants to do. This method is called whenever
@@ -39,20 +40,17 @@ public class capanga extends Enemy
         }
     }
     
-    private Player findTarget(boolean hasRange, int range) {
-        List<Player> players;
-        
-        if (hasRange) players = getObjectsInRange(range, Player.class);
-        else players = getWorld().getObjects(Player.class);
+    private Player findClosestTarget(int range) {
+        List<Player> players = getObjectsInRange(range, Player.class);
   
         if (!players.isEmpty()) {
             Player closestPlayer = null;
             double nearestDistance = Double.MAX_VALUE;
             
             for (Player p : players) {
-                int distance = p.getX() - getX();
+                int distance = Math.abs(p.getX() - getX());
                 
-                if (distance < nearestDistance) {
+                if (distance < nearestDistance && !p.IsHidden()) {
                     nearestDistance = distance;
                     closestPlayer = p;
                 }
@@ -65,9 +63,10 @@ public class capanga extends Enemy
     }
     
     private boolean canSeePlayer(Player player) {
+        if (player.IsHidden()) return false;
+        
         boolean playerOnLeft = false;
-        if (player != null) playerOnLeft = player.getX() < getX() ? true : false;
-        else return false;
+        playerOnLeft = player.getX() < getX() ? true : false;
         
         if (playerOnLeft && directionFactor < 0) {
             return true;
@@ -75,7 +74,7 @@ public class capanga extends Enemy
         else if (!playerOnLeft && directionFactor > 0) {
             return true;
         }
-        else if (Math.abs(player.getX() - getX()) < visionRange/3){
+        else if (Math.abs(player.getX() - getX()) < 150){
             return true;
         }
         
@@ -83,8 +82,21 @@ public class capanga extends Enemy
     }
     
     public void checkState() {
-        if (canSeePlayer(findTarget(true, visionRange))) {
+        Player target = findClosestTarget(visionRange);
+        
+        if (estadoAtual == State.PATROL && target != null && canSeePlayer(target)) {
+            currentTarget = target;
             estadoAtual = State.AGGRESSIVE;
+        }
+        else if (estadoAtual == State.AGGRESSIVE && currentTarget != null) {
+            if (currentTarget.IsHidden()) {
+                int distanceToTarget = Math.abs(currentTarget.getX() - getX());
+                
+                if (distanceToTarget > visionRange / 2) {
+                    currentTarget = null;
+                    estadoAtual = State.PATROL;
+                }
+            }
         }
     }
     
@@ -94,7 +106,7 @@ public class capanga extends Enemy
             directionFactor = -directionFactor;
             patrolCounter = patrolTime;
         }
-        else if (patrolCounter > 500){
+        else if (patrolCounter > 300 || !isAtEdge()){
             if (directionFactor < 0) setImage(GetImageLeft());
             else setImage(GetImageRight());
             setLocation(getX() + (int) (directionFactor * speed), getY());
@@ -102,12 +114,18 @@ public class capanga extends Enemy
     }
     
     public void moveAggressive() {
-        int direction = 0;
-        Player target = findTarget(false, 0);
-        if (target != null) direction = target.getX() < getX() ? -1 : 1;
-        
-        if (direction < 0) setImage(GetImageLeft());
+        if (currentTarget != null) {
+            if (currentTarget.getX() != getX()) {
+                directionFactor = currentTarget.getX() < getX() ? -1 : 1;
+            }
+            else {
+                directionFactor = 0;
+            }
+        }
+    
+        if (directionFactor < 0) setImage(GetImageLeft());
         else setImage(GetImageRight());
-        setLocation(getX() + (int) (direction * speed * 2), getY());
+        
+        setLocation(getX() + (int) (directionFactor * speed * 2), getY());
     }
 }

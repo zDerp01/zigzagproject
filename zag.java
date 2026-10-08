@@ -42,4 +42,16 @@ public class zag extends Player
             SetGravity(GetJumpStrength());
         }
     }
+    
+    @Override
+    public Spots interactedWithSpot() {
+        Spots spot = (Spots) getOneIntersectingObject(Spots.class);
+        Level level = (Level) getWorld();
+        
+        if (spot != null && "k".equals(level.getPressedKey())) {
+            return spot;
+        }
+        
+        return null;
+    }
 }

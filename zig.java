@@ -43,4 +43,16 @@ public class zig extends Player
         }
     }
     
+    @Override
+    public Spots interactedWithSpot() {
+        Spots spot = (Spots) getOneIntersectingObject(Spots.class);
+        Level level = (Level) getWorld();
+        
+        if (spot != null && "e".equals(level.getPressedKey())) {
+            return spot;
+        }
+        
+        return null;
+    }
+    
 }
