@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.target=phone_cabin
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ phone_cabin\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=boolean\ HasClue()
+comment2.params=state
+comment2.target=void\ SetHasClue(boolean)
+comment3.params=
+comment3.target=phone_cabin()
+comment4.params=
+comment4.target=void\ act()
+comment4.text=\r\n\ Act\ -\ do\ whatever\ the\ phone_cabin\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment5.params=
+comment5.target=void\ OnSearch()
+comment6.params=
+comment6.target=void\ OnInteract()
+numComments=7

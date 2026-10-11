@@ -15,6 +15,15 @@ public class zag extends Player
     public void act()
     {
         super.act();
+        
+        Level level = (Level) getWorld();
+        
+        if ("j".equals(level.getPressedKey())) {
+            SetPressedSearchKey(true);
+        }
+        else {
+            SetPressedSearchKey(false);
+        }
     }
     
     @Override
@@ -44,12 +53,24 @@ public class zag extends Player
     }
     
     @Override
-    public Spots interactedWithSpot() {
+    public Spots hidesInSpot() {
         Spots spot = (Spots) getOneIntersectingObject(Spots.class);
         Level level = (Level) getWorld();
         
         if (spot != null && "k".equals(level.getPressedKey())) {
             return spot;
+        }
+        
+        return null;
+    }
+    
+    @Override
+    public Containers searchedContainer() {
+        Containers container = (Containers) getOneIntersectingObject(Containers.class);
+        Level level = (Level) getWorld();
+        
+        if (container != null && PressedSearchKey()) {
+            return container;
         }
         
         return null;

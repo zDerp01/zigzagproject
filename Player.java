@@ -9,7 +9,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public abstract class Player extends Entity
 {
     private int _gravity, _speed = 4, _jumpStrength = -10;
-    private boolean _isHidden = false;
+    private boolean _isHidden = false, _searchKeyPress;
+    private Spots _hiddenSpot;
     
     public int GetGravity() {
         return _gravity;
@@ -27,6 +28,14 @@ public abstract class Player extends Entity
         return _isHidden;
     }
     
+    public Spots GetHiddenSpot() {
+        return _hiddenSpot;
+    }
+    
+    public boolean PressedSearchKey() {
+        return _searchKeyPress;
+    }
+    
     public void SetGravity(int num) {
         _gravity = num;
     }
@@ -41,6 +50,14 @@ public abstract class Player extends Entity
     
     public void SetIsHidden(boolean state) {
         _isHidden = state;
+    }
+    
+    public void SetHiddenSpot(Spots spot) {
+        _hiddenSpot = spot;
+    }
+    
+    public void SetPressedSearchKey(boolean state) {
+        _searchKeyPress = state;
     }
     
     // --------------------------------------------
@@ -62,7 +79,9 @@ public abstract class Player extends Entity
 
     public abstract void jump();
     
-    public abstract Spots interactedWithSpot();
+    public abstract Spots hidesInSpot();
+    
+    public abstract Containers searchedContainer();
     
     public void fall() {
         if (!isTouching(Ground.class)) {

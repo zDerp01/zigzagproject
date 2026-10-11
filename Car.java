@@ -7,10 +7,10 @@ import java.util.List;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Car extends Spots
+public class car extends Spots
 {
     
-    public Car() {
+    public car() {
         GreenfootImage image = new GreenfootImage("sprites/cars/car_" + Greenfoot.getRandomNumber(4) + ".png");
         int width = (int) (image.getWidth() * 3.5f);
         int height = (int) (image.getHeight() * 3.5f);
@@ -34,12 +34,13 @@ public class Car extends Spots
         List<Entity> entities = getWorld().getObjects(Entity.class);
 
         for (Player player : players) { 
-            if (player.interactedWithSpot() == this) {
+            if (player.hidesInSpot() == this) {
                 World world = getWorld();
                 
                 if (this.GetHiddenPlayer() == player) {        
                     this.SetHiddenPlayer(null);
                     player.SetIsHidden(false);
+                    player.SetHiddenSpot(null);
                 }
                 else if (this.GetHiddenPlayer() == null) {
                     int cX = this.getX();
@@ -49,6 +50,7 @@ public class Car extends Spots
                     world.addObject(this, cX, cY);
                     
                     player.setLocation(cX + 70, cY - 30);
+                    player.SetHiddenSpot(this);
                     
                     this.SetHiddenPlayer(player);
                     player.SetIsHidden(true);

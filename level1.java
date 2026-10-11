@@ -15,6 +15,7 @@ public class level1 extends Level
      */
     public level1()
     {
+        // SCENARIO ---------------------------------------
         addObject(new street_top(), 209, 867);
         addObject(new street_top(), 696, 867);
         addObject(new street_top(), 1183, 867);
@@ -41,11 +42,25 @@ public class level1 extends Level
         addObject(new building(), 1357, 610);
         addObject(new building(), 1666, 610);
         
+        addObject(new street_lamp(), 547, 810);
+        addObject(new street_lamp(), 847, 810);
+        addObject(new street_lamp(), 1147, 810);
+        
+        addObject(new trash_bin(), 247, 837);
+        addObject(new trash_bin(), 647, 837);
+        addObject(new trash_bin(), 1047, 837);
+        addObject(new trash_bin(), 1447, 837);
+        
+        addObject(new phone_cabin(), 406, 810);
+        
         addObject(new street_bottom(), 209, 959);
         addObject(new street_bottom(), 696, 959);
         addObject(new street_bottom(), 1183, 959);
         addObject(new street_bottom(), 1670, 959);
         
         //addObject(new zig(), 798, 520);
+        
+        // CONTROLLERS ---------------------------------------
+        addObject(new clue_controller(), 0, 0);
     }
 }
