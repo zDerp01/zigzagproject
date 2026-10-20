@@ -11,11 +11,20 @@ public class trash_bin extends Containers
 {
     public trash_bin() {
         GreenfootImage image = getImage();
-        int width = (int) (image.getWidth() * 1.2f);
-        int height = (int) (image.getHeight() * 1.2f);
+        int width = (int) (image.getWidth() * 2.4f);
+        int height = (int) (image.getHeight() * 2.4f);
         
         image.scale(width, height);
         setImage(image);
+    }
+    
+    protected void addedToWorld(Level level) {
+        if (isTouching(trash_bin.class) || isTouching(phone_cabin.class)) {
+            int randomX = Greenfoot.getRandomNumber(3000) + 300;
+            level.addScrollObject(new trash_bin(), randomX, 747);
+            
+            level.removeObject(this);
+        }
     }
     
     /**

@@ -8,7 +8,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public abstract class Player extends Entity
 {
-    private int _gravity, _speed = 4, _jumpStrength = -10;
+    private int _gravity, _jumpStrength = -10;
+    private float _speed = 1.5f;
     private boolean _isHidden = false, _searchKeyPress;
     private Spots _hiddenSpot;
     
@@ -16,7 +17,7 @@ public abstract class Player extends Entity
         return _gravity;
     }
     
-    public int GetSpeed() {
+    public float GetSpeed() {
         return _speed;
     }
     
@@ -40,7 +41,7 @@ public abstract class Player extends Entity
         _gravity = num;
     }
     
-    public void SetSpeed(int num) {
+    public void SetSpeed(float num) {
         _speed = num;
     }
     

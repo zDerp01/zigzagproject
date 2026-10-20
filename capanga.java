@@ -12,13 +12,15 @@ public class capanga extends Enemy
     
     private enum State {
         PATROL,
-        AGGRESSIVE
+        AGGRESSIVE,
+        CAUGHT
     }
     
     private int patrolCounter, patrolTime = 1400, directionFactor = 1, visionRange = 500;
     private float speed = 1.2f;
     private State estadoAtual = State.PATROL;
     private Player currentTarget;
+    private boolean gameOverScreenActive = false;
     
     /**
      * Act - do whatever the capanga wants to do. This method is called whenever
@@ -27,6 +29,7 @@ public class capanga extends Enemy
     public void act()
     {
         super.act();
+        Level level = (Level) getWorld();
         
         switch (estadoAtual) {
             case PATROL:
@@ -37,7 +40,17 @@ public class capanga extends Enemy
                 checkState();
                 moveAggressive();
                 break;
+            case CAUGHT:
+                if (!gameOverScreenActive) {
+                    game_controller gameover = new game_controller();
+                    level.addObject(gameover, getWorld().getWidth()/2, getWorld().getHeight()/2); 
+                    gameOverScreenActive = true;
+                }
+                
+                break;
         }
+        
+        update(level.getCameraX());
     }
     
     private Player findClosestTarget(int range) {
@@ -81,18 +94,24 @@ public class capanga extends Enemy
         return false;
     }
     
+    private int getDistanceToCurrentTarget() {
+        return Math.abs(currentTarget.getX() - getX());
+    }
+    
     public void checkState() {
         Player target = findClosestTarget(visionRange);
         
-        if (estadoAtual == State.PATROL && target != null && canSeePlayer(target)) {
+        
+        if (estadoAtual != State.CAUGHT && currentTarget != null && getDistanceToCurrentTarget() < visionRange / 4) {
+            estadoAtual = State.CAUGHT;
+        }
+        else if (estadoAtual == State.PATROL && target != null && canSeePlayer(target)) {
             currentTarget = target;
             estadoAtual = State.AGGRESSIVE;
         }
         else if (estadoAtual == State.AGGRESSIVE && currentTarget != null) {
-            if (currentTarget.IsHidden()) {
-                int distanceToTarget = Math.abs(currentTarget.getX() - getX());
-                
-                if (distanceToTarget > visionRange / 2) {
+            if (currentTarget.IsHidden()) {         
+                if (getDistanceToCurrentTarget() > visionRange / 2) {
                     currentTarget = null;
                     estadoAtual = State.PATROL;
                 }
@@ -109,7 +128,7 @@ public class capanga extends Enemy
         else if (patrolCounter > 300 || !isAtEdge()){
             if (directionFactor < 0) setImage(GetImageLeft());
             else setImage(GetImageRight());
-            setLocation(getX() + (int) (directionFactor * speed), getY());
+            exactX += (int) (directionFactor * speed);
         }
     }
     
@@ -126,6 +145,6 @@ public class capanga extends Enemy
         if (directionFactor < 0) setImage(GetImageLeft());
         else setImage(GetImageRight());
         
-        setLocation(getX() + (int) (directionFactor * speed * 2), getY());
+        exactX += (int) (directionFactor * speed * 2);
     }
 }

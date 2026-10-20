@@ -19,6 +19,12 @@ public class car extends Spots
         setImage(image);
     }
     
+    protected void addedToWorld(World world) {
+        if (isTouching(car.class) || isTouching(trash_bin.class) || isTouching(phone_cabin.class)) {
+            world.removeObject(this);
+        }
+    }
+    
     /**
      * Act - do whatever the Car wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -56,6 +62,7 @@ public class car extends Spots
                     player.SetIsHidden(true);
                 }
                 
+                // recolocar entidades para aparecerem por cima
                 for (Entity entity : entities) {
                     if ((entity instanceof Player p && !p.IsHidden()) || entity instanceof Enemy) {
                         int eX = entity.getX();
@@ -65,6 +72,14 @@ public class car extends Spots
                         world.addObject(entity, eX, eY);
                     }
                 }
+                
+                // recolocar start point para aparecer por cima
+                StartPoint sp = world.getObjects(StartPoint.class).get(0);
+                int spX = sp.getX();
+                int spY = sp.getY();
+                
+                world.removeObject(sp);   
+                world.addObject(sp, spX, spY);
             }
         }
     }

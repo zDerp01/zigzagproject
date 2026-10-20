@@ -6,12 +6,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Background extends Sprite
+public class Background extends ScrollableSprite
 {
     public Background() {
         GreenfootImage image = getImage();
-        int width = image.getWidth() * 2;
-        int height = image.getHeight() * 2;
+        int width = image.getWidth() * 4;
+        int height = image.getHeight() * 4;
         
         image.scale(width, height);
         setImage(image);

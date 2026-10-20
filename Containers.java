@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public abstract class Containers extends Sprite
+public abstract class Containers extends ScrollableSprite
 {
     private boolean _hasClue;
     

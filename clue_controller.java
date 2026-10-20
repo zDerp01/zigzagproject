@@ -16,7 +16,7 @@ public class clue_controller extends Controllers
         System.out.println("Number of clues: " + clues);
     }
     
-    public void addedToWorld(World world) {
+    protected void addedToWorld(World world) {
         List<Actor> searchableObjects = new java.util.ArrayList<>();
         searchableObjects.addAll(world.getObjects(Containers.class));
         searchableObjects.addAll(world.getObjects(phone_cabin.class));    

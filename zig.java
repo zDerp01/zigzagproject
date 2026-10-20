@@ -28,21 +28,38 @@ public class zig extends Player
     
     @Override
     public void move() {
-        int moveFactor;
+        float moveFactor;
+        Level level = (Level) getWorld();
         
         if (Greenfoot.isKeyDown("a")) {
             moveFactor = -GetSpeed();
             setImage(GetImageLeft());
+            
+            if (level.getCameraX() > 0) {
+                level.setCameraX(level.getCameraX() - 2);
+                level.moveWorld(2);
+            }
+            else {
+                moveFactor = moveFactor * 2; // x2 para manter o speed quando a câmera não tem movimento
+            }
         }
         else if (Greenfoot.isKeyDown("d")) {
             moveFactor = GetSpeed();
             setImage(GetImageRight());
+            
+            if (level.getCameraX() < level.getCameraLimit()) {
+                level.setCameraX(level.getCameraX() + 2);
+                level.moveWorld(2);
+            }
+            else {
+                moveFactor = moveFactor * 2;
+            }
         }
         else {
             moveFactor = 0;
         }
         
-        setLocation(getX() + moveFactor, getY());
+        setLocation(getX() + (int) moveFactor, getY());
     }
     
     @Override

@@ -6,14 +6,14 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Entity extends Sprite
+public class Entity extends ScrollableSprite
 {
     private GreenfootImage imageRight, imageLeft;
     
     public Entity() { 
         GreenfootImage image = getImage();
-        int width = (int) (image.getWidth() * 1.5f);
-        int height = (int) (image.getHeight() * 1.5f);
+        int width = image.getWidth() * 3;
+        int height = image.getHeight() * 3;
         
         image.scale(width, height);
         setImage(image);

@@ -21,11 +21,20 @@ public class phone_cabin extends Spots
     
     public phone_cabin() {
         GreenfootImage image = getImage();
-        int width = (int) (image.getWidth() * 1.5f);
-        int height = (int) (image.getHeight() * 1.5f);
+        int width = (int) (image.getWidth() * 3f);
+        int height = (int) (image.getHeight() * 3f);
         
         image.scale(width, height);
         setImage(image);
+    }
+    
+    protected void addedToWorld(Level level) {
+        if (isTouching(trash_bin.class) || isTouching(phone_cabin.class) || isTouching(street_lamp.class)) {
+            int randomX = Greenfoot.getRandomNumber(3000) + 300;
+            level.addScrollObject(new phone_cabin(), randomX, 747);
+            
+            level.removeObject(this);
+        }
     }
     
     /**

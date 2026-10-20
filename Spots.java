@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public abstract class Spots extends Sprite
+public abstract class Spots extends ScrollableSprite
 {
     private Player _hiddenPlayer;
     

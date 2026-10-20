@@ -28,21 +28,18 @@ public class zag extends Player
     
     @Override
     public void move() {
-        int moveFactor;
+        Level level = (Level) getWorld();
         
         if (Greenfoot.isKeyDown("left")) {
-            moveFactor = -GetSpeed();
+            exactX -= 2 * GetSpeed(); // x2 para igualar ao speed do zig (já que tem resistência da câmera)
             setImage(GetImageLeft());
         }
         else if (Greenfoot.isKeyDown("right")) {
-            moveFactor = GetSpeed();
+            exactX += 2 * GetSpeed();
             setImage(GetImageRight());
         }
-        else {
-            moveFactor = 0;
-        }
         
-        setLocation(getX() + moveFactor, getY());
+        update(level.getCameraX());
     }
     
     @Override
