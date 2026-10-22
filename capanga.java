@@ -16,11 +16,22 @@ public class capanga extends Enemy
         CAUGHT
     }
     
-    private int patrolCounter, patrolTime = 1400, directionFactor = 1, visionRange = 500;
+    private int patrolCounter, patrolTime = 1000, directionFactor = 1, visionRange = 500;
     private float speed = 1.2f;
     private State estadoAtual = State.PATROL;
     private Player currentTarget;
     private boolean gameOverScreenActive = false;
+    
+    private GreenfootImage[] idleAnimLeft, walkAnimLeft, jumpAnimLeft;
+    private GreenfootImage[] idleAnimRight, walkAnimRight, jumpAnimRight;
+    
+    public capanga() {
+        idleAnimLeft = loadAnimation("sprites/capanga/idle/idle", 2, 3);
+        idleAnimRight = flipAnimation(idleAnimLeft);
+        
+        walkAnimLeft = loadAnimation("sprites/capanga/walk/walk", 4, 3);
+        walkAnimRight = flipAnimation(walkAnimLeft);
+    }
     
     /**
      * Act - do whatever the capanga wants to do. This method is called whenever
@@ -44,6 +55,7 @@ public class capanga extends Enemy
                 if (!gameOverScreenActive) {
                     game_controller gameover = new game_controller();
                     level.addObject(gameover, getWorld().getWidth()/2, getWorld().getHeight()/2); 
+                    SetMoving(false);
                     gameOverScreenActive = true;
                 }
                 
@@ -103,11 +115,13 @@ public class capanga extends Enemy
         
         
         if (estadoAtual != State.CAUGHT && currentTarget != null && getDistanceToCurrentTarget() < visionRange / 4) {
+            animSpeed *= 2;
             estadoAtual = State.CAUGHT;
         }
         else if (estadoAtual == State.PATROL && target != null && canSeePlayer(target)) {
             currentTarget = target;
             estadoAtual = State.AGGRESSIVE;
+            animSpeed /= 2;
         }
         else if (estadoAtual == State.AGGRESSIVE && currentTarget != null) {
             if (currentTarget.IsHidden()) {         
@@ -124,27 +138,50 @@ public class capanga extends Enemy
         if (patrolCounter <= 0) {
             directionFactor = -directionFactor;
             patrolCounter = patrolTime;
+            
         }
-        else if (patrolCounter > 300 || !isAtEdge()){
-            if (directionFactor < 0) setImage(GetImageLeft());
-            else setImage(GetImageRight());
+        else if (patrolCounter > 300 && !isAtEdge()){
             exactX += (int) (directionFactor * speed);
+            
+            if (directionFactor < 0) SetFacingRight(false);
+            else SetFacingRight(true);
+            SetMoving(true);
+        }
+        else {
+            SetMoving(false);
         }
     }
     
     public void moveAggressive() {
         if (currentTarget != null) {
-            if (currentTarget.getX() != getX()) {
-                directionFactor = currentTarget.getX() < getX() ? -1 : 1;
-            }
-            else {
-                directionFactor = 0;
-            }
+            directionFactor = currentTarget.getX() < getX() ? -1 : 1;
         }
-    
-        if (directionFactor < 0) setImage(GetImageLeft());
-        else setImage(GetImageRight());
         
         exactX += (int) (directionFactor * speed * 2);
+    
+        if (directionFactor < 0) SetFacingRight(false);
+        else SetFacingRight(true);
+        SetMoving(true);
+        
+    }
+    
+    @Override
+    protected void animate() {
+        animTimer++;
+        if (animTimer >= animSpeed) {
+            animTimer = 0;
+            animFrame++;
+        }
+        
+        if (IsMoving()) {
+            GreenfootImage[] currentAnim = IsFacingRight() ? walkAnimRight : walkAnimLeft;
+            if (animFrame >= currentAnim.length) animFrame = 0; // looping
+            setImage(currentAnim[animFrame]);
+        } 
+        else {
+            GreenfootImage[] currentAnim = IsFacingRight() ? idleAnimRight : idleAnimLeft;
+            if (animFrame >= currentAnim.length) animFrame = 0; // looping
+            setImage(currentAnim[animFrame]);
+        }
     }
 }

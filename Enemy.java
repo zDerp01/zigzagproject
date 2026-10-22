@@ -26,6 +26,8 @@ public abstract class Enemy extends Entity
      */
     public void act()
     {
+        super.act();
+        
         fall();
     }
     

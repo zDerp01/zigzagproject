@@ -88,8 +88,8 @@ public class level1 extends Level
         // ENTITIES AND POINTS ---------------------------------------
         addScrollObject(new capanga(), Greenfoot.getRandomNumber(3000) + 300, 786);
         
-        addScrollObject(new zig(), 143, 815);
-        addScrollObject(new zag(), 103, 815);
+        addScrollObject(new zig(), 143, 785);
+        addScrollObject(new zag(), 103, 785);
         addScrollObject(new StartPoint(), 123, 853);
         
         // CONTROLLERS ---------------------------------------

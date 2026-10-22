@@ -8,9 +8,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public abstract class Player extends Entity
 {
-    private int _gravity, _jumpStrength = -10;
+    private int _gravity, _jumpStrength = -13;
     private float _speed = 1.5f;
-    private boolean _isHidden = false, _searchKeyPress;
+    private boolean _isHidden = false, _searchKeyPress, _isJumping;
     private Spots _hiddenSpot;
     
     public int GetGravity() {
@@ -27,6 +27,10 @@ public abstract class Player extends Entity
     
     public boolean IsHidden() {
         return _isHidden;
+    }
+    
+    public boolean IsJumping() {
+        return _isJumping;
     }
     
     public Spots GetHiddenSpot() {
@@ -53,6 +57,10 @@ public abstract class Player extends Entity
         _isHidden = state;
     }
     
+    public void SetIsJumping(boolean state) {
+        _isJumping = state;
+    }
+    
     public void SetHiddenSpot(Spots spot) {
         _hiddenSpot = spot;
     }
@@ -69,10 +77,16 @@ public abstract class Player extends Entity
      */
     public void act()
     {
+        super.act();
         if (!_isHidden) {
             move();
             fall();
             jump();
+        }
+        
+        if (isTouching(Ground.class) && _isJumping && _gravity > 0) { // para detetar o fim do salto do player
+            _isJumping = false;
+            resetAnimParams();
         }
     }
     
@@ -92,5 +106,11 @@ public abstract class Player extends Entity
             _gravity = 0;
         }
         setLocation(getX(), getY() + _gravity);
+    }
+    
+    protected void resetAnimParams() {
+        this.animFrame = 0;
+        this.animTimer = 0;
+        this.animSpeed = 20;
     }
 }

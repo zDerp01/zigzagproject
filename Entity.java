@@ -6,45 +6,37 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Entity extends ScrollableSprite
+public abstract class Entity extends ScrollableSprite
 {
-    private GreenfootImage imageRight, imageLeft;
+    private boolean _isMoving, _isFacingRight;
+    protected int animTimer, animFrame, animSpeed = 20;
     
-    public Entity() { 
-        GreenfootImage image = getImage();
-        int width = image.getWidth() * 3;
-        int height = image.getHeight() * 3;
-        
-        image.scale(width, height);
-        setImage(image);
-        
-        imageLeft = getImage();
-        imageRight = new GreenfootImage(imageLeft);
-        imageRight.mirrorHorizontally();
+    public Entity() {
+        GreenfootImage img = getImage();
+        img.scale(img.getWidth() * 3, img.getHeight() * 3);
+        setImage(img); // para ficar grande no editor
     }
     
-    public GreenfootImage GetImageLeft() {
-        return imageLeft;
+    public boolean IsMoving() {
+        return _isMoving;
     }
     
-    public GreenfootImage GetImageRight() {
-        return imageRight;
+    public boolean IsFacingRight() {
+        return _isFacingRight;
     }
     
-    public void SetImageLeft(GreenfootImage image) {
-        imageLeft = image;
+    public void SetMoving(boolean state) {
+        _isMoving = state;
     }
     
-    public void SetImageRight(GreenfootImage image) {
-        imageRight = image;
+    public void SetFacingRight(boolean state) {
+        _isFacingRight = state;
     }
     
-    /**
-     * Act - do whatever the Character wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    public void act()
-    {
-        // Add your action code here.
+    
+    public void act() {
+        animate();
     }
+    
+    protected abstract void animate();
 }

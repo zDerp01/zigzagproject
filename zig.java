@@ -8,6 +8,20 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class zig extends Player
 {
+    private GreenfootImage[] idleAnimLeft, walkAnimLeft, jumpAnimLeft;
+    private GreenfootImage[] idleAnimRight, walkAnimRight, jumpAnimRight;
+    
+    public zig() {     
+        idleAnimLeft = loadAnimation("sprites/zig/idle/idle", 2, 3);
+        idleAnimRight = flipAnimation(idleAnimLeft);
+        
+        walkAnimLeft = loadAnimation("sprites/zig/walk/walk", 4, 3);
+        walkAnimRight = flipAnimation(walkAnimLeft);
+        
+        jumpAnimLeft = loadAnimation("sprites/zig/jump/jump", 4, 3);
+        jumpAnimRight = flipAnimation(jumpAnimLeft);
+    }
+    
     /**
      * Act - do whatever the zig wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -33,7 +47,6 @@ public class zig extends Player
         
         if (Greenfoot.isKeyDown("a")) {
             moveFactor = -GetSpeed();
-            setImage(GetImageLeft());
             
             if (level.getCameraX() > 0) {
                 level.setCameraX(level.getCameraX() - 2);
@@ -42,10 +55,12 @@ public class zig extends Player
             else {
                 moveFactor = moveFactor * 2; // x2 para manter o speed quando a câmera não tem movimento
             }
+            
+            SetMoving(true);
+            SetFacingRight(false);
         }
         else if (Greenfoot.isKeyDown("d")) {
             moveFactor = GetSpeed();
-            setImage(GetImageRight());
             
             if (level.getCameraX() < level.getCameraLimit()) {
                 level.setCameraX(level.getCameraX() + 2);
@@ -54,9 +69,13 @@ public class zig extends Player
             else {
                 moveFactor = moveFactor * 2;
             }
+            
+            SetMoving(true);
+            SetFacingRight(true);
         }
         else {
             moveFactor = 0;
+            SetMoving(false);
         }
         
         setLocation(getX() + (int) moveFactor, getY());
@@ -66,6 +85,11 @@ public class zig extends Player
     public void jump() {
         if (isTouching(Ground.class) && Greenfoot.isKeyDown("w")) {
             SetGravity(GetJumpStrength());
+            
+            animSpeed = 13;
+            animFrame = 0;
+            animTimer = 0;
+            SetIsJumping(true);
         }
     }
     
@@ -91,5 +115,30 @@ public class zig extends Player
         }
         
         return null;
+    }
+    
+    @Override
+    protected void animate() {
+        animTimer++;
+        if (animTimer >= animSpeed) {
+            animTimer = 0;
+            animFrame++;
+        }
+        
+        if (IsJumping()) {
+            GreenfootImage[] currentAnim = IsFacingRight() ? jumpAnimRight : jumpAnimLeft;
+            if (animFrame >= currentAnim.length) animFrame = currentAnim.length - 1;
+            setImage(currentAnim[animFrame]);
+        }
+        else if (IsMoving()) {
+            GreenfootImage[] currentAnim = IsFacingRight() ? walkAnimRight : walkAnimLeft;
+            if (animFrame >= currentAnim.length) animFrame = 0; // looping
+            setImage(currentAnim[animFrame]);
+        } 
+        else {
+            GreenfootImage[] currentAnim = IsFacingRight() ? idleAnimRight : idleAnimLeft;
+            if (animFrame >= currentAnim.length) animFrame = 0; // looping
+            setImage(currentAnim[animFrame]);
+        }
     }
 }

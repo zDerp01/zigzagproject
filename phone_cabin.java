@@ -94,6 +94,13 @@ public class phone_cabin extends Spots
                         world.addObject(entity, eX, eY);
                     }
                 }
+                
+                StartPoint sp = world.getObjects(StartPoint.class).get(0);
+                int spX = sp.getX();
+                int spY = sp.getY();
+                
+                world.removeObject(sp);   
+                world.addObject(sp, spX, spY);
             }
         }
     }

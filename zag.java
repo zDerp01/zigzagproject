@@ -8,6 +8,20 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class zag extends Player
 {
+    private GreenfootImage[] idleAnimLeft, walkAnimLeft, jumpAnimLeft;
+    private GreenfootImage[] idleAnimRight, walkAnimRight, jumpAnimRight;
+    
+    public zag() {
+        idleAnimLeft = loadAnimation("sprites/zag/idle/idle", 2, 3);
+        idleAnimRight = flipAnimation(idleAnimLeft);
+        
+        walkAnimLeft = loadAnimation("sprites/zag/walk/walk", 4, 3);
+        walkAnimRight = flipAnimation(walkAnimLeft);
+        
+        jumpAnimLeft = loadAnimation("sprites/zag/jump/jump", 4, 3);
+        jumpAnimRight = flipAnimation(jumpAnimLeft);
+    }
+    
     /**
      * Act - do whatever the zag wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -32,11 +46,18 @@ public class zag extends Player
         
         if (Greenfoot.isKeyDown("left")) {
             exactX -= 2 * GetSpeed(); // x2 para igualar ao speed do zig (já que tem resistência da câmera)
-            setImage(GetImageLeft());
+            
+            SetMoving(true);
+            SetFacingRight(false);
         }
         else if (Greenfoot.isKeyDown("right")) {
             exactX += 2 * GetSpeed();
-            setImage(GetImageRight());
+            
+            SetMoving(true);
+            SetFacingRight(true);
+        }
+        else {
+            SetMoving(false);
         }
         
         update(level.getCameraX());
@@ -46,6 +67,11 @@ public class zag extends Player
     public void jump() {
         if (isTouching(Ground.class) && Greenfoot.isKeyDown("up")) {
             SetGravity(GetJumpStrength());
+            
+            animSpeed = 13;
+            animFrame = 0;
+            animTimer = 0;
+            SetIsJumping(true);
         }
     }
     
@@ -71,5 +97,30 @@ public class zag extends Player
         }
         
         return null;
+    }
+    
+    @Override
+    protected void animate() {
+        animTimer++;
+        if (animTimer >= animSpeed) {
+            animTimer = 0;
+            animFrame++;
+        }
+        
+        if (IsJumping()) {
+            GreenfootImage[] currentAnim = IsFacingRight() ? jumpAnimRight : jumpAnimLeft;
+            if (animFrame >= currentAnim.length) animFrame = currentAnim.length - 1;
+            setImage(currentAnim[animFrame]);
+        }
+        else if (IsMoving()) {
+            GreenfootImage[] currentAnim = IsFacingRight() ? walkAnimRight : walkAnimLeft;
+            if (animFrame >= currentAnim.length) animFrame = 0; // looping
+            setImage(currentAnim[animFrame]);
+        } 
+        else {
+            GreenfootImage[] currentAnim = IsFacingRight() ? idleAnimRight : idleAnimLeft;
+            if (animFrame >= currentAnim.length) animFrame = 0; // looping
+            setImage(currentAnim[animFrame]);
+        }
     }
 }
