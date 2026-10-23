@@ -1,12 +1,16 @@
 #BlueJ class context
 comment0.target=ScrollableSprite
 comment0.text=\r\n\ Write\ a\ description\ of\ class\ Sprite\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
-comment1.params=x
-comment1.target=void\ setLocationScroll(int)
-comment2.params=cameraX
-comment2.target=void\ update(int)
-comment3.params=prefix\ framesCount\ scale
-comment3.target=greenfoot.GreenfootImage[]\ loadAnimation(java.lang.String,\ int,\ int)
-comment4.params=original
-comment4.target=greenfoot.GreenfootImage[]\ flipAnimation(greenfoot.GreenfootImage[])
-numComments=5
+comment1.params=
+comment1.target=int\ getExactX()
+comment2.params=x
+comment2.target=void\ setLocationScroll(int)
+comment3.params=cameraX
+comment3.target=void\ update(int)
+comment4.params=
+comment4.target=void\ replaceEntitiesAndPointsOnTop()
+comment5.params=prefix\ framesCount\ scale
+comment5.target=greenfoot.GreenfootImage[]\ loadAnimation(java.lang.String,\ int,\ int)
+comment6.params=original
+comment6.target=greenfoot.GreenfootImage[]\ flipAnimation(greenfoot.GreenfootImage[])
+numComments=7

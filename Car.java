@@ -1,5 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
+import java.util.Random;
 
 /**
  * Write a description of class Car here.
@@ -9,20 +10,23 @@ import java.util.List;
  */
 public class car extends Spots
 {
+    private int _carType = -1;
     
-    public car() {
-        GreenfootImage image = new GreenfootImage("sprites/cars/car_" + Greenfoot.getRandomNumber(4) + ".png");
+    @Override
+    protected void addedToWorld(World world) {    
+        if (_carType == -1) {
+            Random rng = new Random(((level1) world).GetLevelSeed() + getX());
+            _carType = rng.nextInt(4);
+        }
+        
+        Random rng = new Random(((level1) getWorld()).GetLevelSeed() + getExactX()); // seed baseada na seed do level + posicao
+        
+        GreenfootImage image = new GreenfootImage("sprites/cars/car_" + _carType + ".png");
         int width = (int) (image.getWidth() * 3.5f);
         int height = (int) (image.getHeight() * 3.5f);
         
         image.scale(width, height);
         setImage(image);
-    }
-    
-    protected void addedToWorld(World world) {
-        if (isTouching(car.class) || isTouching(trash_bin.class) || isTouching(phone_cabin.class)) {
-            world.removeObject(this);
-        }
     }
     
     /**
@@ -32,6 +36,11 @@ public class car extends Spots
     public void act()
     {
         super.act();
+        
+        if (isTouching(car.class) || isTouching(trash_bin.class) || isTouching(phone_cabin.class)) {
+            getWorld().removeObject(this);
+            return;
+        }
     }
     
     @Override
@@ -62,24 +71,8 @@ public class car extends Spots
                     player.SetIsHidden(true);
                 }
                 
-                // recolocar entidades para aparecerem por cima
-                for (Entity entity : entities) {
-                    if ((entity instanceof Player p && !p.IsHidden()) || entity instanceof Enemy) {
-                        int eX = entity.getX();
-                        int eY = entity.getY();
-                    
-                        world.removeObject(entity);   
-                        world.addObject(entity, eX, eY);
-                    }
-                }
-                
-                // recolocar start point para aparecer por cima
-                StartPoint sp = world.getObjects(StartPoint.class).get(0);
-                int spX = sp.getX();
-                int spY = sp.getY();
-                
-                world.removeObject(sp);   
-                world.addObject(sp, spX, spY);
+                // recolocar entidades e points para aparecerem por cima
+                replaceEntitiesAndPointsOnTop();
             }
         }
     }

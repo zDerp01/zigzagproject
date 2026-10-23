@@ -28,15 +28,6 @@ public class phone_cabin extends Spots
         setImage(image);
     }
     
-    protected void addedToWorld(Level level) {
-        if (isTouching(trash_bin.class) || isTouching(phone_cabin.class) || isTouching(street_lamp.class)) {
-            int randomX = Greenfoot.getRandomNumber(3000) + 300;
-            level.addScrollObject(new phone_cabin(), randomX, 747);
-            
-            level.removeObject(this);
-        }
-    }
-    
     /**
      * Act - do whatever the phone_cabin wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -44,15 +35,31 @@ public class phone_cabin extends Spots
     public void act()
     {
         super.act();
+        
+        if (isTouching(trash_bin.class) || isTouching(phone_cabin.class) || isTouching(street_lamp.class)) {
+            Level level = (Level) getWorld();
+            
+            int randomX = Greenfoot.getRandomNumber(3000) + 300;
+            level.addScrollObject(new phone_cabin(), randomX, 720);
+            replaceEntitiesAndPointsOnTop();
+            
+            level.removeObject(this);
+            return;
+        }
+        
         OnSearch();
     }
     
     public void OnSearch() {
-        List<Player> players = getWorld().getObjects(Player.class);
+        World world = getWorld();
+        List<Player> players = world.getObjects(Player.class);
         
         for (Player player : players) { 
             if (player.GetHiddenSpot() == this && player.PressedSearchKey()) {     
-                System.out.println("Cabine tinha clue: " + HasClue());
+                if (HasClue()) {
+                    SetHasClue(false);
+                    ((level1) world).clueController.AddCollectedClue();
+                }
             }
         }
     }

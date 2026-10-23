@@ -50,7 +50,7 @@ public class Level extends World
     
     public void moveWorld(int playerSpeed) {
         for (ScrollableSprite obj : getObjects(ScrollableSprite.class)) {
-            if (obj instanceof zig) continue;
+            if (obj instanceof zig || obj instanceof sky) continue;
             
             obj.update(_cameraX);
         }

@@ -8,9 +8,11 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public abstract class Player extends Entity
 {
+    protected int habilityTimer, habilityTotalTime = 60;
+    
     private int _gravity, _jumpStrength = -13;
     private float _speed = 1.5f;
-    private boolean _isHidden = false, _searchKeyPress, _isJumping;
+    private boolean _isHidden = false, _searchKeyPress, _isJumping, _usingHability;
     private Spots _hiddenSpot;
     
     public int GetGravity() {
@@ -31,6 +33,10 @@ public abstract class Player extends Entity
     
     public boolean IsJumping() {
         return _isJumping;
+    }
+    
+    public boolean UsingHability() {
+        return _usingHability;
     }
     
     public Spots GetHiddenSpot() {
@@ -61,6 +67,10 @@ public abstract class Player extends Entity
         _isJumping = state;
     }
     
+    public void SetUsingHability(boolean state) {
+        _usingHability = state;
+    }
+    
     public void SetHiddenSpot(Spots spot) {
         _hiddenSpot = spot;
     }
@@ -79,20 +89,35 @@ public abstract class Player extends Entity
     {
         super.act();
         if (!_isHidden) {
-            move();
+            useHability();
+            
+            if (!_usingHability) {
+                move();
+                jump();
+            }
+            
             fall();
-            jump();
         }
         
-        if (isTouching(Ground.class) && _isJumping && _gravity > 0) { // para detetar o fim do salto do player
-            _isJumping = false;
-            resetAnimParams();
+        if (habilityTimer > 0) habilityTimer--;
+        else if (_usingHability && habilityTimer <= 0) {
+            _usingHability = false;
+            resetAnimParams();   
+        }
+        
+        if (isTouching(Ground.class) && _gravity > 0) { // para detetar o fim do salto do player
+            if (_isJumping) {
+                _isJumping = false;
+                resetAnimParams();   
+            }
         }
     }
     
     public abstract void move();
 
     public abstract void jump();
+    
+    public abstract void useHability();
     
     public abstract Spots hidesInSpot();
     

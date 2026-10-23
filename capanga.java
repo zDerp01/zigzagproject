@@ -13,6 +13,7 @@ public class capanga extends Enemy
     private enum State {
         PATROL,
         AGGRESSIVE,
+        DEAD,
         CAUGHT
     }
     
@@ -20,10 +21,10 @@ public class capanga extends Enemy
     private float speed = 1.2f;
     private State estadoAtual = State.PATROL;
     private Player currentTarget;
-    private boolean gameOverScreenActive = false;
+    private boolean gameOverScreenActive = false, dead = false;
     
-    private GreenfootImage[] idleAnimLeft, walkAnimLeft, jumpAnimLeft;
-    private GreenfootImage[] idleAnimRight, walkAnimRight, jumpAnimRight;
+    private GreenfootImage[] idleAnimLeft, walkAnimLeft, deadAnimLeft;
+    private GreenfootImage[] idleAnimRight, walkAnimRight, deadAnimRight;
     
     public capanga() {
         idleAnimLeft = loadAnimation("sprites/capanga/idle/idle", 2, 3);
@@ -31,6 +32,9 @@ public class capanga extends Enemy
         
         walkAnimLeft = loadAnimation("sprites/capanga/walk/walk", 4, 3);
         walkAnimRight = flipAnimation(walkAnimLeft);
+        
+        deadAnimLeft = loadAnimation("sprites/capanga/dead/dead", 3, 3);
+        deadAnimRight = flipAnimation(deadAnimLeft);
     }
     
     /**
@@ -50,6 +54,8 @@ public class capanga extends Enemy
             case AGGRESSIVE:
                 checkState();
                 moveAggressive();
+                break;
+            case DEAD:   
                 break;
             case CAUGHT:
                 if (!gameOverScreenActive) {
@@ -99,9 +105,6 @@ public class capanga extends Enemy
         else if (!playerOnLeft && directionFactor > 0) {
             return true;
         }
-        else if (Math.abs(player.getX() - getX()) < 150){
-            return true;
-        }
         
         return false;
     }
@@ -113,8 +116,10 @@ public class capanga extends Enemy
     public void checkState() {
         Player target = findClosestTarget(visionRange);
         
-        
-        if (estadoAtual != State.CAUGHT && currentTarget != null && getDistanceToCurrentTarget() < visionRange / 4) {
+        if (IsDead()) {
+            estadoAtual = State.DEAD;
+        }
+        else if (estadoAtual != State.CAUGHT && currentTarget != null && getDistanceToCurrentTarget() < visionRange / 4) {
             animSpeed *= 2;
             estadoAtual = State.CAUGHT;
         }
@@ -128,6 +133,7 @@ public class capanga extends Enemy
                 if (getDistanceToCurrentTarget() > visionRange / 2) {
                     currentTarget = null;
                     estadoAtual = State.PATROL;
+                    animSpeed *= 2;
                 }
             }
         }
@@ -173,7 +179,12 @@ public class capanga extends Enemy
             animFrame++;
         }
         
-        if (IsMoving()) {
+        if (IsDead()) {
+            GreenfootImage[] currentAnim = IsFacingRight() ? deadAnimRight : deadAnimLeft;
+            if (animFrame >= currentAnim.length) animFrame = currentAnim.length - 1;
+            setImage(currentAnim[animFrame]);
+        }
+        else if (IsMoving()) {
             GreenfootImage[] currentAnim = IsFacingRight() ? walkAnimRight : walkAnimLeft;
             if (animFrame >= currentAnim.length) animFrame = 0; // looping
             setImage(currentAnim[animFrame]);

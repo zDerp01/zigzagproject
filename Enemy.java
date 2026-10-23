@@ -8,14 +8,23 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public abstract class Enemy extends Entity
 {
-    private int gravity;
+    private int _gravity;
+    private boolean _isDead;
     
     public int GetGravity() {
-        return gravity;
+        return _gravity;
     }
     
     public void SetGravity(int num) {
-        gravity = num;
+        _gravity = num;
+    }
+    
+    public boolean IsDead() {
+        return _isDead;
+    }
+    
+    public void SetDeadState(boolean state) {
+        _isDead = state;
     }
     
     // --------------------------------------------
@@ -33,11 +42,11 @@ public abstract class Enemy extends Entity
     
     public void fall() {
         if (!isTouching(Ground.class)) {
-            gravity++;
+            _gravity++;
         }
-        else if (gravity > 0) {
-            gravity = 0;
+        else if (_gravity > 0) {
+            _gravity = 0;
         }
-        setLocation(getX(), getY() + gravity);
+        setLocation(getX(), getY() + _gravity);
     }
 }

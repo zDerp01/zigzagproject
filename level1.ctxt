@@ -1,5 +1,7 @@
 #BlueJ class context
 comment0.target=level1
-comment1.params=
-comment1.target=level1()
-numComments=2
+comment1.params=seed
+comment1.target=level1(int)
+comment2.params=
+comment2.target=int\ GetLevelSeed()
+numComments=3

@@ -9,14 +9,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class game_controller extends Controllers
 {
     public game_controller() {
-        setImage(new GreenfootImage("Foste Capturado", 48, Color.WHITE, Color.BLACK));
+        setImage(new GreenfootImage("Foste Visto", 48, Color.WHITE, Color.BLACK));
     }
-    /**
-     * Act - do whatever the game_controller wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    public void act()
-    {
-        // Add your action code here.
+    
+    @Override
+    protected void addedToWorld(World world) {
+        level1 currentLevel = (level1) world;
+        currentLevel.lifeController.DecreaseLives();
     }
 }

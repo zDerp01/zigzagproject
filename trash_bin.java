@@ -18,15 +18,6 @@ public class trash_bin extends Containers
         setImage(image);
     }
     
-    protected void addedToWorld(Level level) {
-        if (isTouching(trash_bin.class) || isTouching(phone_cabin.class)) {
-            int randomX = Greenfoot.getRandomNumber(3000) + 300;
-            level.addScrollObject(new trash_bin(), randomX, 747);
-            
-            level.removeObject(this);
-        }
-    }
-    
     /**
      * Act - do whatever the trash_bin wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -34,17 +25,30 @@ public class trash_bin extends Containers
     public void act()
     {
         super.act();
+        
+        if (isTouching(trash_bin.class)) {
+            Level level = (Level) getWorld();
+            int randomX = Greenfoot.getRandomNumber(3000) + 300;
+            level.addScrollObject(new trash_bin(), randomX, 747);
+            replaceEntitiesAndPointsOnTop();
+            
+            level.removeObject(this);
+            return;
+        }
+
     }
     
     @Override
     public void OnInteract() {
-        List<Player> players = getWorld().getObjects(Player.class);
+        World world = getWorld();
+        List<Player> players = world.getObjects(Player.class);
 
         for (Player player : players) { 
             if (player.searchedContainer() == this) {
-                World world = getWorld();
-                
-                System.out.println("Lixo tinha clue: " + HasClue());
+                if (HasClue()) {
+                    SetHasClue(false);
+                    ((level1) world).clueController.AddCollectedClue();
+                }
             }
         }
     }

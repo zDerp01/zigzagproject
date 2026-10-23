@@ -9,11 +9,19 @@ import java.util.List;
  */
 public class clue_controller extends Controllers
 {
-    private int clues;
+    private int _clues, _totalClues, _collectedClues;
     
     public clue_controller() {
-        clues = Greenfoot.getRandomNumber(3) + 1;
-        System.out.println("Number of clues: " + clues);
+        _clues = Greenfoot.getRandomNumber(3) + 1;
+        _totalClues = _clues;
+    }
+    
+    public int GetCollectedClues() {
+        return _collectedClues;
+    }
+    
+    public void AddCollectedClue() {
+        _collectedClues++;
     }
     
     protected void addedToWorld(World world) {
@@ -21,20 +29,20 @@ public class clue_controller extends Controllers
         searchableObjects.addAll(world.getObjects(Containers.class));
         searchableObjects.addAll(world.getObjects(phone_cabin.class));    
         
-        while (clues > 0) {
+        while (_clues > 0) {
             for (Actor obj : searchableObjects) { 
                 if (obj instanceof Containers) {
                     Containers ct = (Containers) obj;
                     if (!ct.HasClue() && Greenfoot.getRandomNumber(10) == 0) {
                         ct.SetHasClue(true);
-                        clues--;
+                        _clues--;
                     }
                 } 
                 else if (obj instanceof phone_cabin) {
                     phone_cabin pc = (phone_cabin) obj;
                     if (!pc.HasClue() && Greenfoot.getRandomNumber(20) == 0) {
                         pc.SetHasClue(true);
-                        clues--;
+                        _clues--;
                     }
                 }
             }   
@@ -47,7 +55,7 @@ public class clue_controller extends Controllers
      */
     public void act()
     {
-        // Add your action code here.
+        setImage(new GreenfootImage("Clues: " + _collectedClues + "/" + _totalClues, 28, Color.GRAY, null));
     }
     
     

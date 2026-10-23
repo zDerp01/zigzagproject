@@ -1,4 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.List;
 
 /**
  * Write a description of class zig here.
@@ -8,8 +9,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class zig extends Player
 {
-    private GreenfootImage[] idleAnimLeft, walkAnimLeft, jumpAnimLeft;
-    private GreenfootImage[] idleAnimRight, walkAnimRight, jumpAnimRight;
+    private GreenfootImage[] idleAnimLeft, walkAnimLeft, jumpAnimLeft, stabAnimLeft;
+    private GreenfootImage[] idleAnimRight, walkAnimRight, jumpAnimRight, stabAnimRight;
     
     public zig() {     
         idleAnimLeft = loadAnimation("sprites/zig/idle/idle", 2, 3);
@@ -20,6 +21,9 @@ public class zig extends Player
         
         jumpAnimLeft = loadAnimation("sprites/zig/jump/jump", 4, 3);
         jumpAnimRight = flipAnimation(jumpAnimLeft);
+        
+        stabAnimLeft = loadAnimation("sprites/zig/stab/stab", 5, 3);
+        stabAnimRight = flipAnimation(stabAnimLeft);
     }
     
     /**
@@ -86,10 +90,31 @@ public class zig extends Player
         if (isTouching(Ground.class) && Greenfoot.isKeyDown("w")) {
             SetGravity(GetJumpStrength());
             
-            animSpeed = 13;
+            animSpeed = 11;
             animFrame = 0;
             animTimer = 0;
             SetIsJumping(true);
+        }
+    }
+    
+    @Override
+    public void useHability() {
+        if (isTouching(Ground.class) && Greenfoot.isKeyDown("f") && !UsingHability()) {
+            habilityTimer = habilityTotalTime;
+            
+            World world = getWorld();
+            
+            List<Enemy> enemies = world.getObjects(Enemy.class);
+            for (Enemy enemy : enemies) {
+                if (Math.abs(enemy.getX() - getX()) <= 150) {
+                    enemy.SetDeadState(true);   
+                }
+            }
+            
+            animSpeed = 11;
+            animFrame = 0;
+            animTimer = 0;
+            SetUsingHability(true);
         }
     }
     
@@ -127,6 +152,11 @@ public class zig extends Player
         
         if (IsJumping()) {
             GreenfootImage[] currentAnim = IsFacingRight() ? jumpAnimRight : jumpAnimLeft;
+            if (animFrame >= currentAnim.length) animFrame = currentAnim.length - 1;
+            setImage(currentAnim[animFrame]);
+        }
+        else if (UsingHability()) {
+            GreenfootImage[] currentAnim = IsFacingRight() ? stabAnimRight : stabAnimLeft;
             if (animFrame >= currentAnim.length) animFrame = currentAnim.length - 1;
             setImage(currentAnim[animFrame]);
         }

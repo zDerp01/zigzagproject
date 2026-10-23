@@ -1,11 +1,20 @@
 import greenfoot.*;
+import java.util.Random;
 
 public class level1 extends Level
 {
-    public level1()
+    public life_controller lifeController = new life_controller();
+    public clue_controller clueController = new clue_controller();
+    
+    private int _levelSeed;
+    
+    public level1(int seed)
     {
+        _levelSeed = seed;
+        Random rng = new Random(seed);
+        
         // SCENARIO ---------------------------------------
-        addScrollObject(new sky(), 1800, 210);
+        addScrollObject(new sky(), 1000, 210);
         
         addScrollObject(new street_top(), 209, 777);
         addScrollObject(new street_top(), 696, 777);
@@ -61,18 +70,18 @@ public class level1 extends Level
         addScrollObject(new street_lamp(), 2947, 720);
         addScrollObject(new street_lamp(), 3247, 720);
 
-        for (int i = 0; i < Greenfoot.getRandomNumber(6) + 2; i++) {
-            int randomX = Greenfoot.getRandomNumber(3000) + 300;
+        for (int i = 0; i < rng.nextInt(6) + 2; i++) {
+            int randomX = rng.nextInt(3000) + 300;
             addScrollObject(new trash_bin(), randomX, 747);
         }
         
-        for (int i = 0; i < Greenfoot.getRandomNumber(2) + 1; i++) {
-            int randomX = Greenfoot.getRandomNumber(3000) + 300;
+        for (int i = 0; i < rng.nextInt(2) + 1; i++) {
+            int randomX = rng.nextInt(3000) + 300;
             addScrollObject(new phone_cabin(), randomX, 720);
         }
         
-        for (int i = 0; i < Greenfoot.getRandomNumber(5) + 1; i++) {
-            int randomX = Greenfoot.getRandomNumber(3000) + 300;
+        for (int i = 0; i < rng.nextInt(5) + 1; i++) {
+            int randomX = rng.nextInt(3000) + 300;
             addScrollObject(new car(), randomX, 775);
         }
         
@@ -86,13 +95,18 @@ public class level1 extends Level
         addScrollObject(new street_bottom(), 3618, 869);
         
         // ENTITIES AND POINTS ---------------------------------------
-        addScrollObject(new capanga(), Greenfoot.getRandomNumber(3000) + 300, 786);
+        addScrollObject(new capanga(), rng.nextInt(3000) + 300, 786);
         
         addScrollObject(new zig(), 143, 785);
         addScrollObject(new zag(), 103, 785);
         addScrollObject(new StartPoint(), 123, 853);
         
         // CONTROLLERS ---------------------------------------
-        addObject(new clue_controller(), 0, 0);
+        addObject(lifeController, getWidth()-1520, getHeight() - 870);
+        addObject(clueController, getWidth()-1540, getHeight() - 835);
+    }
+    
+    public int GetLevelSeed() {
+        return _levelSeed;
     }
 }

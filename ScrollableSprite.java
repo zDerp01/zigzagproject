@@ -1,4 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.List;
 
 /**
  * Write a description of class Sprite here.
@@ -10,13 +11,39 @@ public class ScrollableSprite extends Actor
 {
     protected int exactX;
     
+    public int getExactX() {
+        return exactX;
+    }
+    
     public void setLocationScroll(int x) {
-        this.exactX = x;
+        exactX = x;
     }
     
     public void update(int cameraX) {
         int screenX = exactX - cameraX;
         super.setLocation(screenX, getY());
+    }
+    
+    protected void replaceEntitiesAndPointsOnTop() {
+        World world = getWorld();
+        
+        List<Entity> entities = world.getObjects(Entity.class);
+        for (Entity entity : entities) {
+            if ((entity instanceof Player p && !p.IsHidden()) || entity instanceof Enemy) {
+                int eX = entity.getX();
+                int eY = entity.getY();
+                    
+                world.removeObject(entity);   
+                world.addObject(entity, eX, eY);
+            }
+        }
+        
+        StartPoint sp = world.getObjects(StartPoint.class).get(0);
+        int spX = sp.getX();
+        int spY = sp.getY();
+                
+        world.removeObject(sp);   
+        world.addObject(sp, spX, spY);
     }
     
     protected GreenfootImage[] loadAnimation(String prefix, int framesCount, int scale) {

@@ -8,8 +8,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class zag extends Player
 {
-    private GreenfootImage[] idleAnimLeft, walkAnimLeft, jumpAnimLeft;
-    private GreenfootImage[] idleAnimRight, walkAnimRight, jumpAnimRight;
+    private GreenfootImage[] idleAnimLeft, walkAnimLeft, jumpAnimLeft, throwAnimLeft;
+    private GreenfootImage[] idleAnimRight, walkAnimRight, jumpAnimRight, throwAnimRight;
     
     public zag() {
         idleAnimLeft = loadAnimation("sprites/zag/idle/idle", 2, 3);
@@ -20,12 +20,16 @@ public class zag extends Player
         
         jumpAnimLeft = loadAnimation("sprites/zag/jump/jump", 4, 3);
         jumpAnimRight = flipAnimation(jumpAnimLeft);
+        
+        throwAnimLeft = loadAnimation("sprites/zag/throw/throw", 3, 3);
+        throwAnimRight = flipAnimation(throwAnimLeft);
     }
     
     /**
      * Act - do whatever the zag wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
+    @Override
     public void act()
     {
         super.act();
@@ -76,6 +80,17 @@ public class zag extends Player
     }
     
     @Override
+    public void useHability() {
+        if (isTouching(Ground.class) && Greenfoot.isKeyDown("l") && !UsingHability()) {
+            habilityTimer = habilityTotalTime;
+            
+            animFrame = 0;
+            animTimer = 0;
+            SetUsingHability(true);
+        }
+    }
+    
+    @Override
     public Spots hidesInSpot() {
         Spots spot = (Spots) getOneIntersectingObject(Spots.class);
         Level level = (Level) getWorld();
@@ -109,6 +124,11 @@ public class zag extends Player
         
         if (IsJumping()) {
             GreenfootImage[] currentAnim = IsFacingRight() ? jumpAnimRight : jumpAnimLeft;
+            if (animFrame >= currentAnim.length) animFrame = currentAnim.length - 1;
+            setImage(currentAnim[animFrame]);
+        }
+        else if (UsingHability()) {
+            GreenfootImage[] currentAnim = IsFacingRight() ? throwAnimRight : throwAnimLeft;
             if (animFrame >= currentAnim.length) animFrame = currentAnim.length - 1;
             setImage(currentAnim[animFrame]);
         }
