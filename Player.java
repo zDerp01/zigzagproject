@@ -12,7 +12,7 @@ public abstract class Player extends Entity
     
     private int _gravity, _jumpStrength = -13;
     private float _speed = 1.5f;
-    private boolean _isHidden = false, _searchKeyPress, _isJumping, _usingHability;
+    private boolean _isHidden = false, _searchKeyPress, _isJumping, _usingHability, _isRestricted;
     private Spots _hiddenSpot;
     
     public int GetGravity() {
@@ -79,6 +79,10 @@ public abstract class Player extends Entity
         _searchKeyPress = state;
     }
     
+    public void SetIsRestricted(boolean state) {
+        _isRestricted = state;
+    }
+    
     // --------------------------------------------
     
     /**
@@ -88,7 +92,7 @@ public abstract class Player extends Entity
     public void act()
     {
         super.act();
-        if (!_isHidden) {
+        if (!_isHidden && !_isRestricted) {
             useHability();
             
             if (!_usingHability) {

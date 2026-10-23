@@ -96,6 +96,7 @@ public class level1 extends Level
         
         // ENTITIES AND POINTS ---------------------------------------
         addScrollObject(new capanga(), rng.nextInt(3000) + 300, 786);
+        addScrollObject(new capanga(), rng.nextInt(3000) + 300, 786);
         
         addScrollObject(new zig(), 143, 785);
         addScrollObject(new zag(), 103, 785);

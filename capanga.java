@@ -117,6 +117,8 @@ public class capanga extends Enemy
         Player target = findClosestTarget(visionRange);
         
         if (IsDead()) {
+            animFrame = 0;
+            animTimer = 0;
             estadoAtual = State.DEAD;
         }
         else if (estadoAtual != State.CAUGHT && currentTarget != null && getDistanceToCurrentTarget() < visionRange / 4) {
