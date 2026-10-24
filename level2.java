@@ -17,9 +17,12 @@ public class level2 extends Level
         // SCENARIO ---------------------------------------
         addScrollObject(new ceil(), 1000, 210);
         
+        addScrollObject(new level2_wall(), 977, 862);
+        
         addScrollObject(new floor_top(), 209, 777);
-        addScrollObject(new floor_top(), 696, 777);
-        addScrollObject(new floor_top(), 1183, 777);
+        addScrollObject(new floor2_top(), 635, 777);
+        
+        addScrollObject(new floor3_top(), 1183, 777);
         addScrollObject(new floor_top(), 1670, 777);
         addScrollObject(new floor_top(), 2157, 777);
         addScrollObject(new floor_top(), 2644, 777);
@@ -35,19 +38,28 @@ public class level2 extends Level
         addScrollObject(new level2_wall(), 4049, 577);
         addScrollObject(new level2_wall(), 4817, 577);
         
+        addScrollObject(new contentor(), 450, 710);
+        
         for (int i = 0; i < rng.nextInt(7) + 2; i++) {
-            int randomX = rng.nextInt(3400) + 300;
+            int randomX = rng.nextInt(3300) + 300;
             addScrollObject(new trash_bin(), randomX, 747);
         }
         
-        for (int i = 0; i < rng.nextInt(10) + 1; i++) {
-            int randomX = rng.nextInt(3400) + 300;
+        for (int i = 0; i < rng.nextInt(13) + 1; i++) {
+            int randomX = rng.nextInt(3300) + 300;
             addScrollObject(new contentor(), randomX, 710);
         }
         
         addScrollObject(new floor_bottom(), 209, 869);
-        addScrollObject(new floor_bottom(), 696, 869);
-        addScrollObject(new floor_bottom(), 1183, 869);
+        addScrollObject(new floor_bottom(), 455, 869);
+        addScrollObject(new floor2_bottom(), 635, 869);
+        
+        addScrollObject(new platform_ground(), 860, 795);
+        addScrollObject(new platform_top(), 860, 785);
+        addScrollObject(new platform_bottom(), 860, 805);
+        
+        addScrollObject(new floor_bottom(), 1242, 869);
+        addScrollObject(new floor3_bottom(), 1183, 869);
         addScrollObject(new floor_bottom(), 1670, 869);
         addScrollObject(new floor_bottom(), 2157, 869);
         addScrollObject(new floor_bottom(), 2644, 869);
@@ -58,7 +70,7 @@ public class level2 extends Level
         
         // ENTITIES AND POINTS ---------------------------------------
         for (int i = 0; i < rng.nextInt(4) + 2; i++) {
-            int randomX = rng.nextInt(3200) + 600;
+            int randomX = rng.nextInt(3000) + 1000;
             addScrollObject(new commander(), randomX, 785);
         }
         
@@ -68,6 +80,8 @@ public class level2 extends Level
         
         // CONTROLLERS ---------------------------------------
         addObject(lifeController, getWidth()-1520, getHeight() - 870);
+        addObject(scoreController, getWidth()-115, getHeight() - 870);
         addObject(clueController, getWidth()-1540, getHeight() - 835);
+        addObject(audioController, getWidth()-1540, getHeight() - 835);
     }
 }

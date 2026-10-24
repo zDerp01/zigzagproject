@@ -164,7 +164,7 @@ public abstract class Player extends Entity
             resetAnimParams();   
         }
         
-        if (isTouching(Ground.class) && _gravity > 0) { // para detetar o fim do salto do player
+        if ((isTouching(Ground.class) || !isTouching(platform_ground.class)) && _gravity > 0) { // para detetar o fim do salto do player
             if (_isJumping) {
                 _isJumping = false;
                 resetAnimParams();   
@@ -202,15 +202,31 @@ public abstract class Player extends Entity
     public abstract Containers searchedContainer();
     
     /**
+     * isOnPlatformTop - verifica se o jogador está em cima da plataforma.
+     */
+    protected boolean isOnPlatformTop() {
+        platform_ground platform = (platform_ground) getOneIntersectingObject(platform_ground.class);
+        if (platform != null) {
+
+            return getY() <= platform.getY() - (platform.getImage().getHeight() / 2);
+        }
+        return false;
+    }
+    
+    /**
      * fall - puxa os jogadores para baixo se estes não estiverem no chão.
      */
     public void fall() {
-        if (!isTouching(Ground.class)) {
+        
+        if (_gravity >= 30) ((Level) getWorld()).lifeController.DecreaseLives(2);
+        
+        if (!isTouching(Ground.class) && !isOnPlatformTop()) {
             _gravity++;
         }
         else if (_gravity > 0) {
             _gravity = 0;
         }
+
         setLocation(getX(), getY() + _gravity);
     }
     

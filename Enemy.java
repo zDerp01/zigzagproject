@@ -56,7 +56,7 @@ public abstract class Enemy extends Entity
      * fall - puxa os inimigos para baixo se estes não estiverem no chão.
      */
     public void fall() {
-        if (!isTouching(Ground.class)) {
+        if (!isTouching(Ground.class) && !isTouching(platform_ground.class)) {
             _gravity++;
         }
         else if (_gravity > 0) {

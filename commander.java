@@ -139,6 +139,25 @@ public class commander extends Enemy
     }
     
     /**
+     * isPlatformAhead - verifica se existe alguma plataforma próxima ao inimigo
+     * na direção para onde ele está atualmente a caminhar.
+     */
+    private boolean isPlatformAhead(int range) {
+        List<Platform> platforms = getObjectsInRange(range, Platform.class);
+        
+        for (Platform p : platforms) {
+            if (p.getX() < getX() && !IsFacingRight()) {
+                return true;
+            }
+            else if (p.getX() > getX() && IsFacingRight()) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
      * checkState - método com a lógica de alterar o estado atual do inimigo, e que também procura um possível target, 
      * que se for avistado passa a ser o currentTarget.
      */
@@ -159,8 +178,14 @@ public class commander extends Enemy
             estadoAtual = State.AGGRESSIVE;
             animSpeed /= 3;
         }
-        else if (estadoAtual == State.AGGRESSIVE && currentTarget != null) { // enquanto estiver no estado agressivo, se o jogador estiver a uma certa distância e se esconder
-            if (currentTarget.IsHidden()) {         
+        else if (estadoAtual == State.AGGRESSIVE && currentTarget != null) { // enquanto estiver no estado agressivo
+            if (isPlatformAhead(150)) { // se tiver uma plataforma em frente
+                currentTarget = null;
+                estadoAtual = State.PATROL;
+                _directionFactor = -_directionFactor;
+                animSpeed *= 3;
+            }
+            else if (currentTarget.IsHidden()) { // se o jogador estiver a uma certa distância e se esconder     
                 if (getDistanceToCurrentTarget() > visionRange / 2) {
                     currentTarget = null;
                     estadoAtual = State.PATROL;
@@ -175,6 +200,9 @@ public class commander extends Enemy
      */
     public void movePatrol() {
         patrolCounter--;
+        
+        if (isPlatformAhead(150)) _directionFactor = -_directionFactor;
+        
         if (patrolCounter <= 0) {
             _directionFactor = -_directionFactor;
             patrolCounter = patrolTime;
@@ -196,6 +224,7 @@ public class commander extends Enemy
      * moveAggressive - movimentação na direção do alvo atual, com um ligeiro boost na velocidade.
      */
     public void moveAggressive() {
+
         if (currentTarget != null) {
             _directionFactor = currentTarget.getX() < getX() ? -1 : 1;
         }

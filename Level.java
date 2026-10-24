@@ -10,9 +10,10 @@ public class Level extends World
 {
     private String _pressedKey;
     private int _cameraX = 0, _levelSeed;
-    private final int CAMERA_LIMIT = 2660;
+    private final int CAMERA_LIMIT = 2680;
     
     protected life_controller lifeController = new life_controller();
+    protected score_controller scoreController = new score_controller();
     protected clue_controller clueController = new clue_controller();
     protected audio_controller audioController = new audio_controller(false);
 

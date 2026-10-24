@@ -118,6 +118,7 @@ public class level1 extends Level
         
         // CONTROLLERS ---------------------------------------
         addObject(lifeController, getWidth()-1520, getHeight() - 870);
+        addObject(scoreController, getWidth()-115, getHeight() - 870);
         addObject(clueController, getWidth()-1540, getHeight() - 835);
         addObject(audioController, getWidth()-1540, getHeight() - 835);
     }

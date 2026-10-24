@@ -48,10 +48,10 @@ public class contentor extends Spots
     {
         super.act();
         
-        if (isTouching(contentor.class) || isTouching(trash_bin.class)) {
+        if (isTouching(contentor.class) || isTouching(trash_bin.class) || !getObjectsInRange(100, Platform.class).isEmpty()) {
             Level level = (Level) getWorld();
             
-            int randomX = rng.nextInt(3400) + 300;
+            int randomX = rng.nextInt(3300) + 300;
             
             contentor newContentor = new contentor();
             newContentor._attempts = this._attempts + 1;

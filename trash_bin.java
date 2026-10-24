@@ -40,10 +40,10 @@ public class trash_bin extends Containers
     {
         super.act();
         
-        if (isTouching(trash_bin.class)) {
+        if (isTouching(trash_bin.class) || !getObjectsInRange(100, Platform.class).isEmpty()) {
             Level level = (Level) getWorld();
             
-            int randomX = rng.nextInt(3400) + 300;
+            int randomX = rng.nextInt(3300) + 300;
             
             trash_bin newTrash = new trash_bin();
             newTrash._attempts = this._attempts + 1;
@@ -70,7 +70,7 @@ public class trash_bin extends Containers
             if (player.searchedContainer() == this) {
                 if (HasClue()) {
                     SetHasClue(false);
-                    ((level1) world).clueController.AddCollectedClue();
+                    ((Level) world).clueController.AddCollectedClue();
                 }
             }
         }

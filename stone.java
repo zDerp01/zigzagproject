@@ -72,6 +72,8 @@ public class stone extends Others
                     else if (enemy instanceof commander cd) {
                         cd.SetPatrolCounter(0);
                     }
+                    
+                    ((Level) world).scoreController.AddRandomScore();
                 }
                 else if (!enemy.IsFacingRight() && enemy.getExactX() < getExactX()) {
                     if (enemy instanceof capanga c) {
@@ -80,6 +82,8 @@ public class stone extends Others
                     else if (enemy instanceof commander cd) {
                         cd.SetPatrolCounter(0);
                     }
+                    
+                    ((Level) world).scoreController.AddRandomScore();
                 }
             }
         }

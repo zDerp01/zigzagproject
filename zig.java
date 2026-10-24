@@ -59,32 +59,42 @@ public class zig extends Player
         Level level = (Level) getWorld();
         
         if (Greenfoot.isKeyDown("a")) {
-            moveFactor = -1;
+            if (getX() > 100) {
+                moveFactor = -1;
             
-            if (level.getCameraX() > 0) {
-                level.setCameraX(level.getCameraX() - 2);
-                level.moveWorld();
+                if (level.getCameraX() > 0) {
+                    level.setCameraX(level.getCameraX() - 2);
+                    level.moveWorld();
+                }
+                else {
+                    moveFactor = moveFactor * 2; // x2 para manter o speed quando a câmera não tem movimento
+                }
+                
+                SetMoving(true);
+                SetFacingRight(false);
             }
             else {
-                moveFactor = moveFactor * 2; // x2 para manter o speed quando a câmera não tem movimento
+                moveFactor = 0;
             }
-            
-            SetMoving(true);
-            SetFacingRight(false);
         }
         else if (Greenfoot.isKeyDown("d")) {
-            moveFactor = 1;
-            
-            if (level.getCameraX() < level.getCameraLimit()) {
-                level.setCameraX(level.getCameraX() + 2);
-                level.moveWorld();
+            if (getX() < 4200) {
+                moveFactor = 1;
+                
+                if (level.getCameraX() < level.getCameraLimit()) {
+                    level.setCameraX(level.getCameraX() + 2);
+                    level.moveWorld();
+                }
+                else {
+                    moveFactor = moveFactor * 2;
+                }
+                
+                SetMoving(true);
+                SetFacingRight(true);
             }
             else {
-                moveFactor = moveFactor * 2;
+                moveFactor = 0;
             }
-            
-            SetMoving(true);
-            SetFacingRight(true);
         }
         else {
             moveFactor = 0;
@@ -99,7 +109,7 @@ public class zig extends Player
      */
     @Override
     public void jump() {
-        if (isTouching(Ground.class) && Greenfoot.isKeyDown("w")) {
+        if ((isTouching(Ground.class) || isOnPlatformTop()) && Greenfoot.isKeyDown("w")) {
             SetGravity(GetJumpStrength());
             
             ((Level) getWorld()).audioController.PlaySFX(((Level) getWorld()).audioController.GetJumpSfx());
@@ -116,15 +126,16 @@ public class zig extends Player
      */
     @Override
     public void useHability() {
-        if (isTouching(Ground.class) && Greenfoot.isKeyDown("f") && !UsingHability() && !IsHidden()) {
+        if ((isTouching(Ground.class) || isOnPlatformTop()) && Greenfoot.isKeyDown("f") && !UsingHability() && !IsHidden()) {
             habilityTimer = habilityTotalTime;
             
             World world = getWorld();
             
             List<Enemy> enemies = world.getObjects(Enemy.class);
             for (Enemy enemy : enemies) {
-                if (Math.abs(enemy.getX() - getX()) <= 100) {
+                if (Math.abs(enemy.getX() - getX()) <= 100 && !enemy.IsDead()) {
                     enemy.SetDeadState(true);   
+                    ((Level) world).scoreController.AddRandomScore();
                     break;
                 }
             }

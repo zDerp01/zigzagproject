@@ -59,16 +59,20 @@ public class zag extends Player
         Level level = (Level) getWorld();
         
         if (Greenfoot.isKeyDown("left")) {
-            exactX -= 3 * GetSpeed();
-            
-            SetMoving(true);
-            SetFacingRight(false);
+            if (getExactX() > 100) {
+                exactX -= 3 * GetSpeed();
+                
+                SetMoving(true);
+                SetFacingRight(false);
+            }
         }
         else if (Greenfoot.isKeyDown("right")) {
-            exactX += 3 * GetSpeed();
+            if (getExactX() < 4200) {
+                exactX += 3 * GetSpeed();
             
-            SetMoving(true);
-            SetFacingRight(true);
+                SetMoving(true);
+                SetFacingRight(true);
+            }
         }
         else {
             SetMoving(false);
@@ -82,7 +86,7 @@ public class zag extends Player
      */
     @Override
     public void jump() {
-        if (isTouching(Ground.class) && Greenfoot.isKeyDown("up")) {
+        if ((isTouching(Ground.class) || isOnPlatformTop()) && Greenfoot.isKeyDown("up")) {
             SetGravity(GetJumpStrength());
             
             ((Level) getWorld()).audioController.PlaySFX(((Level) getWorld()).audioController.GetJumpSfx());
@@ -99,7 +103,7 @@ public class zag extends Player
      */
     @Override
     public void useHability() {
-        if ((isTouching(Ground.class) || IsHidden()) && Greenfoot.isKeyDown("l") && !UsingHability()) { // permite usar a habilidade mesmo estando escondido
+        if (((isTouching(Ground.class) || isOnPlatformTop()) || IsHidden()) && Greenfoot.isKeyDown("l") && !UsingHability()) { // permite usar a habilidade mesmo estando escondido
             habilityTimer = habilityTotalTime;
             
             // a pedra é instanciada num animation event, no animate()
