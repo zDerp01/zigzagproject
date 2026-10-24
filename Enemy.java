@@ -11,18 +11,30 @@ public abstract class Enemy extends Entity
     private int _gravity;
     private boolean _isDead;
     
+    /**
+     * GetGravity - retorna o valor da gravidade.
+     */
     public int GetGravity() {
         return _gravity;
     }
     
+    /**
+     * SetGravity - modifica o valor da gravidade.
+     */
     public void SetGravity(int num) {
         _gravity = num;
     }
     
+    /**
+     * IsDead - retorna se está morto.
+     */
     public boolean IsDead() {
         return _isDead;
     }
     
+    /**
+     * IsDead - modifica se está morto.
+     */
     public void SetDeadState(boolean state) {
         _isDead = state;
     }
@@ -30,7 +42,7 @@ public abstract class Enemy extends Entity
     // --------------------------------------------
     
     /**
-     * Act - do whatever the Player wants to do. This method is called whenever
+     * Act - do whatever the Enemy wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act()
@@ -40,6 +52,9 @@ public abstract class Enemy extends Entity
         fall();
     }
     
+    /**
+     * fall - puxa os inimigos para baixo se estes não estiverem no chão.
+     */
     public void fall() {
         if (!isTouching(Ground.class)) {
             _gravity++;

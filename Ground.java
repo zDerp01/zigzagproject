@@ -8,21 +8,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Ground extends ScrollableSprite
 {
-    public Ground() { 
-        GreenfootImage image = getImage();
-        int width = image.getWidth() * 2;
-        int height = image.getHeight() * 2;
-        
-        image.scale(width, height);
-        setImage(image);
-    }
-    
     /**
-     * Act - do whatever the Ground wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
+     * Ground - construtor que redimensiona o sprite para fins estéticos.
      */
-    public void act()
-    {
-        // Add your action code here.
+    public Ground() { 
+        GreenfootImage image = getImage();    
+        image.scale(image.getWidth() * 2, image.getHeight() * 2);
+        setImage(image);
     }
 }

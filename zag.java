@@ -10,7 +10,11 @@ public class zag extends Player
 {
     private GreenfootImage[] idleAnimLeft, walkAnimLeft, jumpAnimLeft, throwAnimLeft;
     private GreenfootImage[] idleAnimRight, walkAnimRight, jumpAnimRight, throwAnimRight;
+    private boolean _spawnedStone;
     
+    /**
+     * zag - construtor que atribui animações.
+     */
     public zag() {
         idleAnimLeft = loadAnimation("sprites/zag/idle/idle", 2, 3);
         idleAnimRight = flipAnimation(idleAnimLeft);
@@ -28,6 +32,8 @@ public class zag extends Player
     /**
      * Act - do whatever the zag wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
+     * 
+     * verifica se a tecla de procurar foi pressionada.
      */
     @Override
     public void act()
@@ -44,18 +50,22 @@ public class zag extends Player
         }
     }
     
+    /**
+     * move - método que trata da lógica da movimentação horizontal, com ajustes no speed por causa da lógica
+     * da câmera.
+     */
     @Override
     public void move() {
         Level level = (Level) getWorld();
         
         if (Greenfoot.isKeyDown("left")) {
-            exactX -= 2 * GetSpeed(); // x2 para igualar ao speed do zig (já que tem resistência da câmera)
+            exactX -= 3 * GetSpeed();
             
             SetMoving(true);
             SetFacingRight(false);
         }
         else if (Greenfoot.isKeyDown("right")) {
-            exactX += 2 * GetSpeed();
+            exactX += 3 * GetSpeed();
             
             SetMoving(true);
             SetFacingRight(true);
@@ -67,6 +77,9 @@ public class zag extends Player
         update(level.getCameraX());
     }
     
+    /**
+     * jump - método que trata da lógica do salto.
+     */
     @Override
     public void jump() {
         if (isTouching(Ground.class) && Greenfoot.isKeyDown("up")) {
@@ -79,10 +92,16 @@ public class zag extends Player
         }
     }
     
+    /**
+     * useHability - método que trata da lógica da habilidade.
+     */
     @Override
     public void useHability() {
-        if (isTouching(Ground.class) && Greenfoot.isKeyDown("l") && !UsingHability()) {
+        if ((isTouching(Ground.class) || IsHidden()) && Greenfoot.isKeyDown("l") && !UsingHability()) { // permite usar a habilidade mesmo estando escondido
             habilityTimer = habilityTotalTime;
+            
+            // a pedra é instanciada num animation event, no animate()
+            _spawnedStone = false;
             
             animFrame = 0;
             animTimer = 0;
@@ -90,6 +109,9 @@ public class zag extends Player
         }
     }
     
+    /**
+     * hidesInSpot - método que trata da interação com um spot para se esconder, e retorna-o.
+     */
     @Override
     public Spots hidesInSpot() {
         Spots spot = (Spots) getOneIntersectingObject(Spots.class);
@@ -102,6 +124,9 @@ public class zag extends Player
         return null;
     }
     
+    /**
+     * searchedContainer - método que trata da interação com um container.
+     */
     @Override
     public Containers searchedContainer() {
         Containers container = (Containers) getOneIntersectingObject(Containers.class);
@@ -114,8 +139,14 @@ public class zag extends Player
         return null;
     }
     
+    /**
+     * animate - método com toda a lógica das animações, condições das mesmas, velocidade de todos os frames,
+     * e neste caso ANIMATION EVENTS.
+     */
     @Override
     protected void animate() {
+        Level level = (Level) getWorld(); 
+        
         animTimer++;
         if (animTimer >= animSpeed) {
             animTimer = 0;
@@ -129,6 +160,12 @@ public class zag extends Player
         }
         else if (UsingHability()) {
             GreenfootImage[] currentAnim = IsFacingRight() ? throwAnimRight : throwAnimLeft;
+            if (animFrame == 1 && !_spawnedStone) {
+                // ANIMATION EVENT -------------------------
+                _spawnedStone = true;
+                level.addScrollObject(new stone(IsFacingRight(), this), getExactX()+10, getY()-5);
+            }
+            
             if (animFrame >= currentAnim.length) animFrame = currentAnim.length - 1;
             setImage(currentAnim[animFrame]);
         }

@@ -8,21 +8,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Underlay extends ScrollableSprite
 {
+    /**
+     * Underlay - construtor que redimensiona o sprite para fins estéticos.
+     */
     public Underlay() { 
         GreenfootImage image = getImage();
-        int width = image.getWidth() * 2;
-        int height = image.getHeight() * 2;
-        
-        image.scale(width, height);
+        image.scale(image.getWidth() * 2, image.getHeight() * 2);
         setImage(image);
-    }
-    
-    /**
-     * Act - do whatever the Underlay wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    public void act()
-    {
-        // Add your action code here.
     }
 }

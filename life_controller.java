@@ -11,14 +11,23 @@ public class life_controller extends Controllers
 {
     private int _lives = 3;
     
+    /**
+     * GetLives - retorna as vidas restantes.
+     */
     public int GetLives() {
         return _lives;
     }
     
+    /**
+     * SetLives - modifica as vidas restantes.
+     */
     public void SetLives(int n) {
         _lives = n;
     }
     
+    /**
+     * DecreaseLives - reduz 1 vida e trata do respawn dos jogadores e do game over.
+     */
     public void DecreaseLives() {
         _lives--;
         
@@ -34,7 +43,7 @@ public class life_controller extends Controllers
     }
     
     /**
-     * Act - do whatever the ClueController wants to do. This method is called whenever
+     * Act - do whatever the life_controller wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act()

@@ -11,6 +11,10 @@ public class game_controller extends Controllers
 {
     private boolean pressedEnter;
     
+    /**
+     * game_controller - construtor que dá setup na imagem que aparece quando um inimigo avista
+     * o jogador.
+     */
     public game_controller() {
         GreenfootImage image = new GreenfootImage(500, 120);
         image.setColor(new Color(0, 0, 0, 180));
@@ -25,6 +29,10 @@ public class game_controller extends Controllers
         setImage(image);
     }
     
+    /**
+     * addedToWorld - trata de restrigir todos os jogadores (congelar),
+     * quando adicionado ao mundo.
+     */
     @Override
     protected void addedToWorld(World world) {    
         List<Player> players = world.getObjects(Player.class);
@@ -33,6 +41,10 @@ public class game_controller extends Controllers
         }
     }
     
+    /**
+     * Act - do whatever the game_controller wants to do. This method is called whenever
+     * the 'Act' or 'Run' button gets pressed in the environment.
+     */
     public void act() {
         if (Greenfoot.isKeyDown("enter") && !pressedEnter) {
             pressedEnter = true;

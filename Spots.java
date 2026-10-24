@@ -10,10 +10,16 @@ public abstract class Spots extends ScrollableSprite
 {
     private Player _hiddenPlayer;
     
+    /**
+     * GetHiddenPlayer - retorna o jogador que se encontra escondido neste spot.
+     */
     public Player GetHiddenPlayer() {
         return _hiddenPlayer;
     }
     
+    /**
+     * SetHiddenPlayer - modifica o jogador que se encontra escondido neste spot.
+     */
     public void SetHiddenPlayer(Player player) {
         _hiddenPlayer = player;
     }
@@ -27,5 +33,8 @@ public abstract class Spots extends ScrollableSprite
         OnInteract();
     }
     
+    /**
+     * OnInteract - método que trata da lógica da interação do jogador com este spot.
+     */
     public abstract void OnInteract();
 }

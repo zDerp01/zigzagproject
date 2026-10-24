@@ -11,8 +11,7 @@ public class Menu extends World
     Button playBtn = new Button(), exitBtn = new Button();
 
     /**
-     * Constructor for objects of class Menu.
-     * 
+     * Menu - construtor do menu, que simplesmente coloca os botões invisiveis por cima da imagem de fundo.
      */
     public Menu()
     {    
@@ -22,10 +21,17 @@ public class Menu extends World
         addObject(exitBtn, getWidth() / 2 + 480, getHeight() / 2 + 120);
     }
     
+    /**
+     * Act - do whatever the Menu wants to do. This method is called whenever
+     * the 'Act' or 'Run' button gets pressed in the environment.
+     */
     public void act() {
         OnClick();
     }
     
+    /**
+     * OnClick - controla o resultado da interação com os botões.
+     */
     public void OnClick() {
         if (playBtn.Clicked()) {
             Greenfoot.setWorld(new level1(Greenfoot.getRandomNumber(5000)));

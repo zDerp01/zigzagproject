@@ -10,16 +10,22 @@ public abstract class Containers extends ScrollableSprite
 {
     private boolean _hasClue;
     
+    /**
+     * HasClue - retorna se o container tem ou não uma clue.
+     */
     public boolean HasClue() {
         return _hasClue;
     }
     
+    /**
+     * SetHasClue - modifica se o container tem ou não uma clue.
+     */
     public void SetHasClue(boolean state) {
         _hasClue = state;
     }
     
     /**
-     * Act - do whatever the Interactables wants to do. This method is called whenever
+     * Act - do whatever the Containers wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act()
@@ -27,5 +33,8 @@ public abstract class Containers extends ScrollableSprite
         OnInteract();
     }
     
+    /**
+     * OnInteract - Método que trata do resultado de uma interação com este objeto.
+     */
     public abstract void OnInteract();
 }

@@ -8,6 +8,10 @@ public class level1 extends Level
     
     private int _levelSeed;
     
+    /**
+     * level1 - o construtor do nível, adiciona todo o ambiente, controllers, entidades,
+     * e também randomiza alguns objetos com base numa seed.
+     */
     public level1(int seed)
     {
         _levelSeed = seed;
@@ -23,7 +27,8 @@ public class level1 extends Level
         addScrollObject(new street_top(), 2157, 777);
         addScrollObject(new street_top(), 2644, 777);
         addScrollObject(new street_top(), 3131, 777);
-        addScrollObject(new street_top(), 3618, 777);
+        addScrollObject(new curve_top(), 3618, 777);
+        addScrollObject(new sidewalk_top(), 4125, 777);
         
         addScrollObject(new farbuilding2(), 229, 546);
         addScrollObject(new farbuilding2(), 540, 546);
@@ -36,6 +41,8 @@ public class level1 extends Level
         addScrollObject(new farbuilding2(), 2717, 546);
         addScrollObject(new farbuilding2(), 3028, 546);
         addScrollObject(new farbuilding2(), 3339, 546);
+        addScrollObject(new farbuilding2(), 3650, 546);
+        addScrollObject(new farbuilding2(), 3961, 546);
         
         addScrollObject(new farbuilding(), 27, 545);
         addScrollObject(new farbuilding(), 337, 545);
@@ -49,6 +56,8 @@ public class level1 extends Level
         addScrollObject(new farbuilding(), 2817, 545);
         addScrollObject(new farbuilding(), 3127, 545);
         addScrollObject(new farbuilding(), 3437, 545);
+        addScrollObject(new farbuilding(), 3747, 545);
+        addScrollObject(new farbuilding(), 4057, 545);
         
         addScrollObject(new building(), 121, 520);
         addScrollObject(new building(), 430, 520);
@@ -62,26 +71,31 @@ public class level1 extends Level
         addScrollObject(new building(), 2902, 520);
         addScrollObject(new building(), 3211, 520);
         addScrollObject(new building(), 3520, 520);
-        
-        addScrollObject(new street_lamp(), 547, 720);
-        addScrollObject(new street_lamp(), 1147, 720);
-        addScrollObject(new street_lamp(), 1447, 720);
-        addScrollObject(new street_lamp(), 2347, 720);
-        addScrollObject(new street_lamp(), 2947, 720);
-        addScrollObject(new street_lamp(), 3247, 720);
+        addScrollObject(new building(), 3829, 520);
+        addScrollObject(new building(), 4138, 520);
+        addScrollObject(new EndPoint(), 4200, 570);
+
+        addScrollObject(new street_lamp(), 300, 720);
+        addScrollObject(new street_lamp(), 800, 720);
+        addScrollObject(new street_lamp(), 1300, 720);
+        addScrollObject(new street_lamp(), 1800, 720);
+        addScrollObject(new street_lamp(), 2300, 720);
+        addScrollObject(new street_lamp(), 2800, 720);
+        addScrollObject(new street_lamp(), 3300, 720);
+        addScrollObject(new street_lamp(), 3800, 720);
 
         for (int i = 0; i < rng.nextInt(6) + 2; i++) {
-            int randomX = rng.nextInt(3000) + 300;
+            int randomX = rng.nextInt(3400) + 300;
             addScrollObject(new trash_bin(), randomX, 747);
         }
         
         for (int i = 0; i < rng.nextInt(2) + 1; i++) {
-            int randomX = rng.nextInt(3000) + 300;
+            int randomX = rng.nextInt(3400) + 300;
             addScrollObject(new phone_cabin(), randomX, 720);
         }
         
-        for (int i = 0; i < rng.nextInt(5) + 1; i++) {
-            int randomX = rng.nextInt(3000) + 300;
+        for (int i = 0; i < rng.nextInt(10) + 1; i++) {
+            int randomX = rng.nextInt(3400) + 300;
             addScrollObject(new car(), randomX, 775);
         }
         
@@ -92,11 +106,15 @@ public class level1 extends Level
         addScrollObject(new street_bottom(), 2157, 869);
         addScrollObject(new street_bottom(), 2644, 869);
         addScrollObject(new street_bottom(), 3131, 869);
-        addScrollObject(new street_bottom(), 3618, 869);
+        addScrollObject(new curve_bottom(), 3618, 869);
+        addScrollObject(new sidewalk_bottom(), 4125, 869);
+        
         
         // ENTITIES AND POINTS ---------------------------------------
-        addScrollObject(new capanga(), rng.nextInt(3000) + 300, 786);
-        addScrollObject(new capanga(), rng.nextInt(3000) + 300, 786);
+        for (int i = 0; i < rng.nextInt(4) + 2; i++) {
+            int randomX = rng.nextInt(3200) + 600;
+            addScrollObject(new capanga(), randomX, 785);
+        }
         
         addScrollObject(new zig(), 143, 785);
         addScrollObject(new zag(), 103, 785);
@@ -107,6 +125,9 @@ public class level1 extends Level
         addObject(clueController, getWidth()-1540, getHeight() - 835);
     }
     
+    /**
+     * GetLevelSeed - retorna a seed que o nível está a usar.
+     */
     public int GetLevelSeed() {
         return _levelSeed;
     }

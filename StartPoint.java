@@ -8,20 +8,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class StartPoint extends ScrollableSprite
 {
+    /**
+     * StartPoint - construtor que redimensiona o sprite para fins estéticos.
+     */
     public StartPoint() {
         GreenfootImage image = getImage();
-        int width = image.getWidth() * 4;
-        int height = image.getHeight() * 4;
-        
-        image.scale(width, height);
+        image.scale(image.getWidth() * 4, image.getHeight() * 4);
         setImage(image);
-    }
-    /**
-     * Act - do whatever the StartPoint wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    public void act()
-    {
-        // Add your action code here.
     }
 }

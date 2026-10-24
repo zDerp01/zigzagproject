@@ -9,18 +9,20 @@ import java.util.List;
  */
 public class trash_bin extends Containers
 {
+    /**
+     * trash_bin - construtor que redimensiona o sprite para fins estéticos.
+     */
     public trash_bin() {
         GreenfootImage image = getImage();
-        int width = (int) (image.getWidth() * 2.4f);
-        int height = (int) (image.getHeight() * 2.4f);
-        
-        image.scale(width, height);
+        image.scale((int) (image.getWidth() * 2.4f), (int) (image.getHeight() * 2.4f));
         setImage(image);
     }
     
     /**
      * Act - do whatever the trash_bin wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
+     * 
+     * garante que os lixos não aparecem uns em cima dos outros na geração aleatória.
      */
     public void act()
     {
@@ -38,6 +40,9 @@ public class trash_bin extends Containers
 
     }
     
+    /**
+     * OnInteract - método que adiciona uma clue aos jogadores se este objeto a tiver.
+     */
     @Override
     public void OnInteract() {
         World world = getWorld();

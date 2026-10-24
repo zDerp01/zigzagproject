@@ -11,26 +11,34 @@ public class phone_cabin extends Spots
 {
     private boolean _hasClue;
     
+    /**
+     * HasClue - retorna se o container tem ou não uma clue.
+     */
     public boolean HasClue() {
         return _hasClue;
     }
     
+    /**
+     * SetHasClue - modifica se o container tem ou não uma clue.
+     */
     public void SetHasClue(boolean state) {
         _hasClue = state;
     }
     
+    /**
+     * phone_cabin - construtor que redimensiona o sprite para fins estéticos.
+     */
     public phone_cabin() {
         GreenfootImage image = getImage();
-        int width = (int) (image.getWidth() * 3f);
-        int height = (int) (image.getHeight() * 3f);
-        
-        image.scale(width, height);
+        image.scale((int) (image.getWidth() * 3f), (int) (image.getHeight() * 3f));
         setImage(image);
     }
     
     /**
      * Act - do whatever the phone_cabin wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
+     * 
+     * garante que as cabines não aparecem umas em cima das outras ou tapem outros objetos mais importantes na geração aleatória.
      */
     public void act()
     {
@@ -50,6 +58,9 @@ public class phone_cabin extends Spots
         OnSearch();
     }
     
+    /**
+     * OnSearch - método que trata da interação de procurar por clues.
+     */
     public void OnSearch() {
         World world = getWorld();
         List<Player> players = world.getObjects(Player.class);
@@ -64,6 +75,10 @@ public class phone_cabin extends Spots
         }
     }
     
+    /**
+     * OnInteract - método que trata da lógica da interação do jogador com este spot, estratégicamente modificando
+     * a posição do jogador que interagir e fazendo as devidas recolocações e remoções de objetos.
+     */
     @Override
     public void OnInteract() {
         List<Player> players = getWorld().getObjects(Player.class);
@@ -73,41 +88,28 @@ public class phone_cabin extends Spots
             if (player.hidesInSpot() == this) {
                 World world = getWorld();
                 
-                if (this.GetHiddenPlayer() == player) {        
-                    this.SetHiddenPlayer(null);
+                if (GetHiddenPlayer() == player) {        
+                    SetHiddenPlayer(null);
                     player.SetIsHidden(false);
                     player.SetHiddenSpot(null);
                 }
-                else if (this.GetHiddenPlayer() == null) {
-                    int cX = this.getX();
-                    int cY = this.getY();
+                else if (GetHiddenPlayer() == null) {
+                    int cX = getX();
+                    int cY = getY();
                     
                     world.removeObject(this);
                     world.addObject(this, cX, cY);
                     
                     player.setLocation(cX, cY + 10);
+                    player.setLocationScroll(getExactX());
                     player.SetHiddenSpot(this);
                     
-                    this.SetHiddenPlayer(player);
+                    SetHiddenPlayer(player);
                     player.SetIsHidden(true);
                 }
                 
-                for (Entity entity : entities) {
-                    if ((entity instanceof Player p && !p.IsHidden()) || entity instanceof Enemy) {
-                        int eX = entity.getX();
-                        int eY = entity.getY();
-                    
-                        world.removeObject(entity);   
-                        world.addObject(entity, eX, eY);
-                    }
-                }
-                
-                StartPoint sp = world.getObjects(StartPoint.class).get(0);
-                int spX = sp.getX();
-                int spY = sp.getY();
-                
-                world.removeObject(sp);   
-                world.addObject(sp, spX, spY);
+                // recolocar entidades e startpoints para aparecerem por cima
+                replaceEntitiesAndPointsOnTop();
             }
         }
     }

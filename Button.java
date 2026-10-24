@@ -8,7 +8,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Button extends UI
 {
-
+    /**
+     * Button - construtor que dá setup numa imagem invisível para o botão.
+     */
     public Button()
     {
         GreenfootImage img = new GreenfootImage(250, 90);
@@ -17,6 +19,9 @@ public class Button extends UI
         setImage(img);
     }
     
+    /**
+     * Clicked - retorna se este botão foi clicado com o rato.
+     */
     public boolean Clicked() {
         return Greenfoot.mouseClicked(this);
     }

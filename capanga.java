@@ -17,7 +17,7 @@ public class capanga extends Enemy
         CAUGHT
     }
     
-    private int patrolCounter, patrolTime = 1000, directionFactor = 1, visionRange = 500;
+    private int patrolCounter, patrolTime = 1000, _directionFactor, visionRange = 400;
     private float speed = 1.2f;
     private State estadoAtual = State.PATROL;
     private Player currentTarget;
@@ -26,6 +26,9 @@ public class capanga extends Enemy
     private GreenfootImage[] idleAnimLeft, walkAnimLeft, deadAnimLeft;
     private GreenfootImage[] idleAnimRight, walkAnimRight, deadAnimRight;
     
+    /**
+     * capanga - construtor que atribui animações e gera uma direção aleatória.
+     */
     public capanga() {
         idleAnimLeft = loadAnimation("sprites/capanga/idle/idle", 2, 3);
         idleAnimRight = flipAnimation(idleAnimLeft);
@@ -35,11 +38,29 @@ public class capanga extends Enemy
         
         deadAnimLeft = loadAnimation("sprites/capanga/dead/dead", 3, 3);
         deadAnimRight = flipAnimation(deadAnimLeft);
+        
+        _directionFactor = Greenfoot.getRandomNumber(2) == 0 ? 1 : -1;
+    }
+    
+    /**
+     * GetDirectionFactor - retorna a direção de movimento.
+     */
+    public int GetDirectionFactor() {
+        return _directionFactor;
+    }
+    
+    /**
+     * SetDirectionFactor - modifica a direção de movimento.
+     */
+    public void SetDirectionFactor(int n) {
+        _directionFactor = n;
     }
     
     /**
      * Act - do whatever the capanga wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
+     * 
+     * controla o que cada estado deste inimigo fará, e atualiza a posição dele no ecrã.
      */
     public void act()
     {
@@ -71,6 +92,10 @@ public class capanga extends Enemy
         update(level.getCameraX());
     }
     
+    /**
+     * findClosestTarget - encontra o jogador mais próximo que não esteja escondido, 
+     * e que esteja dentro do range definido.
+     */
     private Player findClosestTarget(int range) {
         List<Player> players = getObjectsInRange(range, Player.class);
   
@@ -93,26 +118,37 @@ public class capanga extends Enemy
         return null;
     }
     
+    /**
+     * canSeePlayer - retorna true se um jogador estiver à frente do inimigo (e não estiver escondido),
+     * caso contrário retorna false.
+     */
     private boolean canSeePlayer(Player player) {
         if (player.IsHidden()) return false;
         
         boolean playerOnLeft = false;
         playerOnLeft = player.getX() < getX() ? true : false;
         
-        if (playerOnLeft && directionFactor < 0) {
+        if (playerOnLeft && _directionFactor < 0) {
             return true;
         }
-        else if (!playerOnLeft && directionFactor > 0) {
+        else if (!playerOnLeft && _directionFactor > 0) {
             return true;
         }
         
         return false;
     }
     
+    /**
+     * getDistanceToCurrentTarget - retorna a distância entre o inimigo e seu alvo atual.
+     */
     private int getDistanceToCurrentTarget() {
         return Math.abs(currentTarget.getX() - getX());
     }
     
+    /**
+     * checkState - método com a lógica de alterar o estado atual do inimigo, e que também procura um possível target, 
+     * que se for avistado passa a ser o currentTarget.
+     */
     public void checkState() {
         Player target = findClosestTarget(visionRange);
         
@@ -121,16 +157,16 @@ public class capanga extends Enemy
             animTimer = 0;
             estadoAtual = State.DEAD;
         }
-        else if (estadoAtual != State.CAUGHT && currentTarget != null && getDistanceToCurrentTarget() < visionRange / 4) {
+        else if (estadoAtual != State.CAUGHT && currentTarget != null && getDistanceToCurrentTarget() < visionRange / 4) { // se estiver perto o suficiente
             animSpeed *= 2;
             estadoAtual = State.CAUGHT;
         }
-        else if (estadoAtual == State.PATROL && target != null && canSeePlayer(target)) {
+        else if (estadoAtual == State.PATROL && target != null && canSeePlayer(target)) { // se consegue ver o jogador
             currentTarget = target;
             estadoAtual = State.AGGRESSIVE;
             animSpeed /= 2;
         }
-        else if (estadoAtual == State.AGGRESSIVE && currentTarget != null) {
+        else if (estadoAtual == State.AGGRESSIVE && currentTarget != null) { // enquanto estiver no estado agressivo, se o jogador estiver a uma certa distância e se esconder
             if (currentTarget.IsHidden()) {         
                 if (getDistanceToCurrentTarget() > visionRange / 2) {
                     currentTarget = null;
@@ -141,17 +177,20 @@ public class capanga extends Enemy
         }
     }
     
+    /**
+     * movePatrol - movimentação simples do modo patrulha que através de um timer, vai para uma direção, para, e volta para trás.
+     */
     public void movePatrol() {
         patrolCounter--;
         if (patrolCounter <= 0) {
-            directionFactor = -directionFactor;
+            _directionFactor = -_directionFactor;
             patrolCounter = patrolTime;
             
         }
         else if (patrolCounter > 300 && !isAtEdge()){
-            exactX += (int) (directionFactor * speed);
+            exactX += (int) (_directionFactor * speed);
             
-            if (directionFactor < 0) SetFacingRight(false);
+            if (_directionFactor < 0) SetFacingRight(false);
             else SetFacingRight(true);
             SetMoving(true);
         }
@@ -160,19 +199,26 @@ public class capanga extends Enemy
         }
     }
     
+    /**
+     * moveAggressive - movimentação na direção do alvo atual, com um ligeiro boost na velocidade.
+     */
     public void moveAggressive() {
         if (currentTarget != null) {
-            directionFactor = currentTarget.getX() < getX() ? -1 : 1;
+            _directionFactor = currentTarget.getX() < getX() ? -1 : 1;
         }
         
-        exactX += (int) (directionFactor * speed * 2);
+        exactX += (int) (_directionFactor * speed * 2);
     
-        if (directionFactor < 0) SetFacingRight(false);
+        if (_directionFactor < 0) SetFacingRight(false);
         else SetFacingRight(true);
         SetMoving(true);
         
     }
     
+    /**
+     * animate - método com toda a lógica das animações, condições das mesmas, velocidade de todos os frames,
+     * e em alguns casos ANIMATION EVENTS.
+     */
     @Override
     protected void animate() {
         animTimer++;

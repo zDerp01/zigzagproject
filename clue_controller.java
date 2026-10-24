@@ -11,19 +11,33 @@ public class clue_controller extends Controllers
 {
     private int _clues, _totalClues, _collectedClues;
     
+    /**
+     * clue_controller - construtor que randomiza o número total de clues do nível.
+     */
     public clue_controller() {
         _clues = Greenfoot.getRandomNumber(3) + 1;
         _totalClues = _clues;
     }
     
+    /**
+     * GetCollectedClues - retorna as clues coletadas pelos jogadores.
+     */
     public int GetCollectedClues() {
         return _collectedClues;
     }
     
+    /**
+     * AddCollectedClue - adiciona uma clue às clues coletadas pelos jogadores.
+     */
     public void AddCollectedClue() {
         _collectedClues++;
     }
     
+    /**
+     * addedToWorld - trata de distribuir clues por todos os containers e nas cabines telefónicas,
+     * quando adicionado ao mundo.
+     */
+    @Override
     protected void addedToWorld(World world) {
         List<Actor> searchableObjects = new java.util.ArrayList<>();
         searchableObjects.addAll(world.getObjects(Containers.class));
@@ -50,7 +64,7 @@ public class clue_controller extends Controllers
     }
     
     /**
-     * Act - do whatever the ClueController wants to do. This method is called whenever
+     * Act - do whatever the clue_controller wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act()

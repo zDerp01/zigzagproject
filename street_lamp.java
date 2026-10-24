@@ -12,19 +12,38 @@ public class street_lamp extends Background
     private int animTimer, animFrame, animSpeed = 10;
     private boolean _blinking;
     
+    /**
+     * street_lamp - construtor que atribui uma animação.
+     */
     public street_lamp() {     
         blinkAnim = loadAnimation("sprites/streetlamp/blink/blink", 4, 4);
     }
     
     /**
-     * Act - do whatever the streetlamp wants to do. This method is called whenever
+     * Act - do whatever the street_lamp wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
+     * 
+     * garante que os postes de luz não aparecem uns em cima dos outros na geração aleatória.
      */
     public void act()
     {
+        if (isTouching(trash_bin.class)) {
+            Level level = (Level) getWorld();
+            int randomX = Greenfoot.getRandomNumber(3000) + 300;
+            level.addScrollObject(new trash_bin(), randomX, 747);
+            replaceEntitiesAndPointsOnTop();
+            
+            level.removeObject(this);
+            return;
+        }
+        
         animate();
     }
     
+    /**
+     * animate - método com toda a lógica das animações, condições das mesmas, velocidade de todos os frames,
+     * e em alguns casos ANIMATION EVENTS.
+     */
     protected void animate() {
         if (!_blinking) {
             setImage(blinkAnim[0]);

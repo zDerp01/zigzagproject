@@ -12,6 +12,9 @@ public class zig extends Player
     private GreenfootImage[] idleAnimLeft, walkAnimLeft, jumpAnimLeft, stabAnimLeft;
     private GreenfootImage[] idleAnimRight, walkAnimRight, jumpAnimRight, stabAnimRight;
     
+    /**
+     * zig - construtor que atribui animações.
+     */
     public zig() {     
         idleAnimLeft = loadAnimation("sprites/zig/idle/idle", 2, 3);
         idleAnimRight = flipAnimation(idleAnimLeft);
@@ -29,6 +32,8 @@ public class zig extends Player
     /**
      * Act - do whatever the zig wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
+     * * 
+     * verifica se a tecla de procurar foi pressionada.
      */
     public void act()
     {
@@ -44,17 +49,21 @@ public class zig extends Player
         }
     }
     
+    /**
+     * move - método que trata da lógica da movimentação horizontal, com ajustes no speed por causa da lógica da câmera.
+     * trata também da movimentação da própria câmera, movendo o X da mesma e movendo o mundo também.
+     */
     @Override
     public void move() {
         float moveFactor;
         Level level = (Level) getWorld();
         
         if (Greenfoot.isKeyDown("a")) {
-            moveFactor = -GetSpeed();
+            moveFactor = -1;
             
             if (level.getCameraX() > 0) {
                 level.setCameraX(level.getCameraX() - 2);
-                level.moveWorld(2);
+                level.moveWorld();
             }
             else {
                 moveFactor = moveFactor * 2; // x2 para manter o speed quando a câmera não tem movimento
@@ -64,11 +73,11 @@ public class zig extends Player
             SetFacingRight(false);
         }
         else if (Greenfoot.isKeyDown("d")) {
-            moveFactor = GetSpeed();
+            moveFactor = 1;
             
             if (level.getCameraX() < level.getCameraLimit()) {
                 level.setCameraX(level.getCameraX() + 2);
-                level.moveWorld(2);
+                level.moveWorld();
             }
             else {
                 moveFactor = moveFactor * 2;
@@ -82,9 +91,12 @@ public class zig extends Player
             SetMoving(false);
         }
         
-        setLocation(getX() + (int) moveFactor, getY());
+        setLocation(getX() + (int) (moveFactor * GetSpeed()), getY());
     }
     
+    /**
+     * jump - método que trata da lógica do salto.
+     */
     @Override
     public void jump() {
         if (isTouching(Ground.class) && Greenfoot.isKeyDown("w")) {
@@ -97,16 +109,19 @@ public class zig extends Player
         }
     }
     
+    /**
+     * useHability - método que trata da lógica da habilidade.
+     */
     @Override
     public void useHability() {
-        if (isTouching(Ground.class) && Greenfoot.isKeyDown("f") && !UsingHability()) {
+        if (isTouching(Ground.class) && Greenfoot.isKeyDown("f") && !UsingHability() && !IsHidden()) {
             habilityTimer = habilityTotalTime;
             
             World world = getWorld();
             
             List<Enemy> enemies = world.getObjects(Enemy.class);
             for (Enemy enemy : enemies) {
-                if (Math.abs(enemy.getX() - getX()) <= 150) {
+                if (Math.abs(enemy.getX() - getX()) <= 130) {
                     enemy.SetDeadState(true);   
                 }
             }
@@ -118,6 +133,9 @@ public class zig extends Player
         }
     }
     
+    /**
+     * hidesInSpot - método que trata da interação com um spot para se esconder, e retorna-o.
+     */
     @Override
     public Spots hidesInSpot() {
         Spots spot = (Spots) getOneIntersectingObject(Spots.class);
@@ -130,6 +148,9 @@ public class zig extends Player
         return null;
     }
     
+    /**
+     * searchedContainer - método que trata da interação com um container.
+     */
     @Override
     public Containers searchedContainer() {
         Containers container = (Containers) getOneIntersectingObject(Containers.class);
@@ -142,6 +163,10 @@ public class zig extends Player
         return null;
     }
     
+    /**
+     * animate - método com toda a lógica das animações, condições das mesmas, velocidade de todos os frames,
+     * e em alguns casos ANIMATION EVENTS.
+     */
     @Override
     protected void animate() {
         animTimer++;
