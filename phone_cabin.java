@@ -1,5 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
+import java.util.Random;
 
 /**
  * Write a description of class phone_cabin here.
@@ -10,6 +11,8 @@ import java.util.List;
 public class phone_cabin extends Spots
 {
     private boolean _hasClue;
+    private Random rng;
+    private int _attempts;
     
     /**
      * HasClue - retorna se o container tem ou não uma clue.
@@ -35,6 +38,14 @@ public class phone_cabin extends Spots
     }
     
     /**
+     * addedToWorld - trata de atribuir rng à variável rng, com base na seed do nível.
+     */
+    @Override
+    protected void addedToWorld(World world) {  
+        rng = new Random(((Level) getWorld()).getLevelSeed() + _attempts);
+    }
+    
+    /**
      * Act - do whatever the phone_cabin wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      * 
@@ -47,8 +58,13 @@ public class phone_cabin extends Spots
         if (isTouching(trash_bin.class) || isTouching(phone_cabin.class) || isTouching(street_lamp.class)) {
             Level level = (Level) getWorld();
             
-            int randomX = Greenfoot.getRandomNumber(3000) + 300;
-            level.addScrollObject(new phone_cabin(), randomX, 720);
+            int randomX = rng.nextInt(3400) + 300;
+            
+            phone_cabin newCabin = new phone_cabin();
+            newCabin._attempts = this._attempts + 1;
+            newCabin.SetHasClue(this.HasClue());
+            
+            level.addScrollObject(newCabin, randomX, 720);
             replaceEntitiesAndPointsOnTop();
             
             level.removeObject(this);

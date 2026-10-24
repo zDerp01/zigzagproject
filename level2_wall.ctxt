@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=level2_wall
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ level2_wall\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=level2_wall()
+comment1.text=\r\n\ level2_wall\ -\ construtor\ que\ redimensiona\ o\ sprite\ para\ fins\ est\u00E9ticos.\r\n
+numComments=2

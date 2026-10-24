@@ -1,5 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
+import java.util.Random;
 
 /**
  * Write a description of class trash_bin here.
@@ -9,6 +10,9 @@ import java.util.List;
  */
 public class trash_bin extends Containers
 {
+    private Random rng;
+    private int _attempts;
+    
     /**
      * trash_bin - construtor que redimensiona o sprite para fins estéticos.
      */
@@ -16,6 +20,14 @@ public class trash_bin extends Containers
         GreenfootImage image = getImage();
         image.scale((int) (image.getWidth() * 2.4f), (int) (image.getHeight() * 2.4f));
         setImage(image);
+    }
+    
+    /**
+     * addedToWorld - trata de atribuir rng à variável rng, com base na seed do nível.
+     */
+    @Override
+    protected void addedToWorld(World world) {    
+        rng = new Random(((Level) getWorld()).getLevelSeed() + _attempts);
     }
     
     /**
@@ -30,8 +42,14 @@ public class trash_bin extends Containers
         
         if (isTouching(trash_bin.class)) {
             Level level = (Level) getWorld();
-            int randomX = Greenfoot.getRandomNumber(3000) + 300;
-            level.addScrollObject(new trash_bin(), randomX, 747);
+            
+            int randomX = rng.nextInt(3400) + 300;
+            
+            trash_bin newTrash = new trash_bin();
+            newTrash._attempts = this._attempts + 1;
+            newTrash.SetHasClue(this.HasClue());
+            
+            level.addScrollObject(newTrash, randomX, 747);
             replaceEntitiesAndPointsOnTop();
             
             level.removeObject(this);

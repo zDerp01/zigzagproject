@@ -102,6 +102,8 @@ public class zig extends Player
         if (isTouching(Ground.class) && Greenfoot.isKeyDown("w")) {
             SetGravity(GetJumpStrength());
             
+            ((Level) getWorld()).audioController.PlaySFX(((Level) getWorld()).audioController.GetJumpSfx());
+            
             animSpeed = 11;
             animFrame = 0;
             animTimer = 0;
@@ -121,8 +123,9 @@ public class zig extends Player
             
             List<Enemy> enemies = world.getObjects(Enemy.class);
             for (Enemy enemy : enemies) {
-                if (Math.abs(enemy.getX() - getX()) <= 130) {
+                if (Math.abs(enemy.getX() - getX()) <= 100) {
                     enemy.SetDeadState(true);   
+                    break;
                 }
             }
             

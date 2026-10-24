@@ -9,8 +9,13 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Level extends World
 {
     private String _pressedKey;
-    private int _cameraX = 0;
+    private int _cameraX = 0, _levelSeed;
     private final int CAMERA_LIMIT = 2660;
+    
+    protected life_controller lifeController = new life_controller();
+    protected clue_controller clueController = new clue_controller();
+    protected audio_controller audioController = new audio_controller(false);
+
     
     /**
      * getPressedKey - retorna a tecla pressionada no momento.
@@ -27,6 +32,27 @@ public class Level extends World
     }
     
     /**
+     * getLifeController - retorna o life controller.
+     */
+    public life_controller getLifeController() {
+        return lifeController;
+    }
+    
+    /**
+     * getClueController - retorna o clue controller.
+     */
+    public clue_controller getClueController() {
+        return clueController;
+    }
+
+    /**
+     * getLevelSeed - retorna a seed que o nível está a usar.
+     */
+    public int getLevelSeed() {
+        return _levelSeed;
+    }
+    
+    /**
      * setCameraX - muda a posição X da câmera.
      */
     public void setCameraX(int value) {
@@ -34,10 +60,24 @@ public class Level extends World
     }
     
     /**
+     * setLevelSeed - modifica a seed que o nível está a usar.
+     */
+    public void setLevelSeed(int seed) {
+        _levelSeed = seed;
+    }
+    
+    /**
      * getCameraLimit - retorna o limite direito máximo da câmera.
      */
     public int getCameraLimit() {
         return CAMERA_LIMIT;
+    }
+    
+    /**
+     * setLifeController - retorna o life controller.
+     */
+    public void setLifeController(life_controller controller) {
+        lifeController = controller;
     }
 
     /**
@@ -72,7 +112,7 @@ public class Level extends World
      */
     public void moveWorld() {
         for (ScrollableSprite obj : getObjects(ScrollableSprite.class)) {
-            if (obj instanceof zig || obj instanceof sky) continue;
+            if (obj instanceof zig || obj instanceof sky || obj instanceof ceil) continue;
             
             obj.update(_cameraX);
         }

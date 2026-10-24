@@ -13,10 +13,7 @@ public class EndPoint extends ScrollableSprite
      */
     public EndPoint() {
         GreenfootImage image = getImage();
-        int width = image.getWidth() * 4;
-        int height = image.getHeight() * 4;
-        
-        image.scale(width, height);
+        image.scale(image.getWidth() * 4, image.getHeight() * 4);
         setImage(image);
     }
 }

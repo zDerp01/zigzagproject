@@ -43,17 +43,10 @@ public class capanga extends Enemy
     }
     
     /**
-     * GetDirectionFactor - retorna a direção de movimento.
+     * SetPatrolCounter - modifica o timer de movimento de patrulha.
      */
-    public int GetDirectionFactor() {
-        return _directionFactor;
-    }
-    
-    /**
-     * SetDirectionFactor - modifica a direção de movimento.
-     */
-    public void SetDirectionFactor(int n) {
-        _directionFactor = n;
+    public void SetPatrolCounter(int n) {
+        patrolCounter = n;
     }
     
     /**

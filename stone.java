@@ -67,12 +67,18 @@ public class stone extends Others
             if (Math.abs(enemy.getExactX() - getExactX()) <= 200) {
                 if (enemy.IsFacingRight() && enemy.getExactX() >= getExactX()) {
                     if (enemy instanceof capanga c) {
-                        c.SetDirectionFactor(-c.GetDirectionFactor());
+                        c.SetPatrolCounter(0);
+                    }
+                    else if (enemy instanceof commander cd) {
+                        cd.SetPatrolCounter(0);
                     }
                 }
                 else if (!enemy.IsFacingRight() && enemy.getExactX() < getExactX()) {
                     if (enemy instanceof capanga c) {
-                        c.SetDirectionFactor(-c.GetDirectionFactor());
+                        c.SetPatrolCounter(0);
+                    }
+                    else if (enemy instanceof commander cd) {
+                        cd.SetPatrolCounter(0);
                     }
                 }
             }

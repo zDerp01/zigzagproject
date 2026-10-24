@@ -28,12 +28,21 @@ public class life_controller extends Controllers
     /**
      * DecreaseLives - reduz 1 vida e trata do respawn dos jogadores e do game over.
      */
-    public void DecreaseLives() {
+    public void DecreaseLives(int levelID) {
         _lives--;
+        Level reloadedLevel = null;
         
         if (_lives > 0) {
-            level1 reloadedLevel = new level1(((level1) getWorld()).GetLevelSeed());
-            reloadedLevel.lifeController.SetLives(_lives);
+            Level currentLevel = (Level) getWorld();
+        
+            if (levelID == 1) {
+                reloadedLevel = new level1(currentLevel.getLevelSeed());
+            }
+            else if (levelID == 2) {
+                reloadedLevel = new level2(currentLevel.getLevelSeed());
+            }
+            
+            if (reloadedLevel != null) reloadedLevel.lifeController.SetLives(_lives);
             
             Greenfoot.setWorld(reloadedLevel);
         }

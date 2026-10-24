@@ -10,25 +10,32 @@ import java.util.Random;
  */
 public class car extends Spots
 {
-    private int _carType = -1;
+    private int _carType = -1, _attempts;
+    private Random rng;
     
     /**
      * addedToWorld - trata de escolher uma variação de cor aleatória para o carro através da seed do próprio nível e da posição X para não estar
      * sempre a mudar de cor na mesma seed e para terem cores diferentes uns dos outros.
      * também redimensiona a imagem para fins estéticos.
+     * 
+     * trata também de atribuir rng à variável rng, com base na seed do nível.
      */
     @Override
     protected void addedToWorld(World world) {    
+        int levelSeed = ((Level) getWorld()).getLevelSeed();
+        
         if (_carType == -1) {
-            Random rng = new Random(((level1) world).GetLevelSeed() + getX());
-            _carType = rng.nextInt(4);
+            Random typeRng = new Random(levelSeed + getX());
+            _carType = typeRng.nextInt(4);
         }
         
-        Random rng = new Random(((level1) getWorld()).GetLevelSeed() + getExactX()); // seed baseada na seed do level + posicao
+        Random typeRng = new Random(levelSeed + getExactX()); // seed baseada na seed do level + posicao
         
         GreenfootImage image = new GreenfootImage("sprites/cars/car_" + _carType + ".png");
         image.scale((int) (image.getWidth() * 3.5f), (int) (image.getHeight() * 3.5f));
         setImage(image);
+        
+        rng = new Random(levelSeed + _attempts);
     }
     
     /**
@@ -42,7 +49,17 @@ public class car extends Spots
         super.act();
         
         if (isTouching(car.class) || isTouching(trash_bin.class) || isTouching(phone_cabin.class)) {
-            getWorld().removeObject(this);
+            Level level = (Level) getWorld();
+            
+            int randomX = rng.nextInt(3400) + 300;
+            
+            car newCar = new car();
+            newCar._attempts = this._attempts + 1;
+            
+            level.addScrollObject(newCar, randomX, 775);
+            replaceEntitiesAndPointsOnTop();
+            
+            level.removeObject(this);
             return;
         }
     }

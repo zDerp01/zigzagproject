@@ -9,6 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Menu extends World
 {
     Button playBtn = new Button(), exitBtn = new Button();
+    audio_controller audioController = new audio_controller(true);
 
     /**
      * Menu - construtor do menu, que simplesmente coloca os botões invisiveis por cima da imagem de fundo.
@@ -19,6 +20,8 @@ public class Menu extends World
         
         addObject(playBtn, getWidth() / 2 + 480, getHeight() / 2 - 60);
         addObject(exitBtn, getWidth() / 2 + 480, getHeight() / 2 + 120);
+        
+        addObject(audioController, getWidth()-1540, getHeight() - 835);
     }
     
     /**
@@ -35,6 +38,7 @@ public class Menu extends World
     public void OnClick() {
         if (playBtn.Clicked()) {
             Greenfoot.setWorld(new level1(Greenfoot.getRandomNumber(5000)));
+            audioController.StopMusic();
         }
         else if (exitBtn.Clicked()) {
             System.exit(0);

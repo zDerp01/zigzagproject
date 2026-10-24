@@ -48,8 +48,8 @@ public class game_controller extends Controllers
     public void act() {
         if (Greenfoot.isKeyDown("enter") && !pressedEnter) {
             pressedEnter = true;
-            level1 currentLevel = (level1) getWorld();
-            currentLevel.lifeController.DecreaseLives();
+            if (getWorld() instanceof level1 currentLevel) currentLevel.lifeController.DecreaseLives(1);
+            if (getWorld() instanceof level2 currentLevel) currentLevel.lifeController.DecreaseLives(2);
         }
     }
 }

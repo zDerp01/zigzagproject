@@ -3,18 +3,13 @@ import java.util.Random;
 
 public class level1 extends Level
 {
-    public life_controller lifeController = new life_controller();
-    public clue_controller clueController = new clue_controller();
-    
-    private int _levelSeed;
-    
     /**
      * level1 - o construtor do nível, adiciona todo o ambiente, controllers, entidades,
      * e também randomiza alguns objetos com base numa seed.
      */
     public level1(int seed)
     {
-        _levelSeed = seed;
+        setLevelSeed(seed);
         Random rng = new Random(seed);
         
         // SCENARIO ---------------------------------------
@@ -74,6 +69,7 @@ public class level1 extends Level
         addScrollObject(new building(), 3829, 520);
         addScrollObject(new building(), 4138, 520);
         addScrollObject(new EndPoint(), 4200, 570);
+        addScrollObject(new levelDoor(), 4249, 745);
 
         addScrollObject(new street_lamp(), 300, 720);
         addScrollObject(new street_lamp(), 800, 720);
@@ -94,7 +90,7 @@ public class level1 extends Level
             addScrollObject(new phone_cabin(), randomX, 720);
         }
         
-        for (int i = 0; i < rng.nextInt(10) + 1; i++) {
+        for (int i = 0; i < rng.nextInt(9) + 1; i++) {
             int randomX = rng.nextInt(3400) + 300;
             addScrollObject(new car(), randomX, 775);
         }
@@ -123,12 +119,6 @@ public class level1 extends Level
         // CONTROLLERS ---------------------------------------
         addObject(lifeController, getWidth()-1520, getHeight() - 870);
         addObject(clueController, getWidth()-1540, getHeight() - 835);
-    }
-    
-    /**
-     * GetLevelSeed - retorna a seed que o nível está a usar.
-     */
-    public int GetLevelSeed() {
-        return _levelSeed;
+        addObject(audioController, getWidth()-1540, getHeight() - 835);
     }
 }

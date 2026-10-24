@@ -170,6 +170,10 @@ public abstract class Player extends Entity
                 resetAnimParams();   
             }
         }
+        
+        if (IsMoving() && !_isJumping) {
+            ((Level) getWorld()).audioController.PlaySFX(((Level) getWorld()).audioController.GetStepSfx());
+        }
     }
     
     /**

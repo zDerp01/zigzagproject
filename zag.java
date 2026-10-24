@@ -85,6 +85,8 @@ public class zag extends Player
         if (isTouching(Ground.class) && Greenfoot.isKeyDown("up")) {
             SetGravity(GetJumpStrength());
             
+            ((Level) getWorld()).audioController.PlaySFX(((Level) getWorld()).audioController.GetJumpSfx());
+            
             animSpeed = 13;
             animFrame = 0;
             animTimer = 0;

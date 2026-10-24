@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.target=level2
+comment1.params=seed
+comment1.target=level2(int)
+comment1.text=\r\n\ level2\ -\ o\ construtor\ do\ n\u00EDvel,\ adiciona\ todo\ o\ ambiente,\ controllers,\ entidades,\r\n\ e\ tamb\u00E9m\ randomiza\ alguns\ objetos\ com\ base\ numa\ seed.\r\n
+numComments=2
