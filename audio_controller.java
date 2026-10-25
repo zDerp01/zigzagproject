@@ -84,7 +84,7 @@ public class audio_controller extends Controllers
      * PlaySFX - toca um efeito sonoro.
      */
     public void PlaySFX(GreenfootSound sound) {
-        sound.stop();
+        if (sound != _stepSfx) sound.stop();
         sound.play();
     }
 }
