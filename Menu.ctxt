@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Menu
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Menu\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=Menu()
+comment1.text=\r\n\ Menu\ -\ construtor\ do\ menu,\ que\ simplesmente\ coloca\ os\ bot\u00F5es\ invisiveis\ por\ cima\ da\ imagem\ de\ fundo.\r\n
+comment2.params=
+comment2.target=void\ act()
+comment2.text=\r\n\ Act\ -\ do\ whatever\ the\ Menu\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment3.params=
+comment3.target=void\ OnClick()
+comment3.text=\r\n\ OnClick\ -\ controla\ o\ resultado\ da\ intera\u00E7\u00E3o\ com\ os\ bot\u00F5es.\r\n
+numComments=4

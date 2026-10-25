@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=Containers
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Interactables\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=boolean\ HasClue()
+comment1.text=\r\n\ HasClue\ -\ retorna\ se\ o\ container\ tem\ ou\ n\u00E3o\ uma\ clue.\r\n
+comment2.params=state
+comment2.target=void\ SetHasClue(boolean)
+comment2.text=\r\n\ SetHasClue\ -\ modifica\ se\ o\ container\ tem\ ou\ n\u00E3o\ uma\ clue.\r\n
+comment3.params=
+comment3.target=void\ act()
+comment3.text=\r\n\ Act\ -\ do\ whatever\ the\ Containers\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment4.params=
+comment4.target=void\ OnInteract()
+comment4.text=\r\n\ OnInteract\ -\ M\u00E9todo\ que\ trata\ do\ resultado\ de\ uma\ intera\u00E7\u00E3o\ com\ este\ objeto.\r\n
+numComments=5

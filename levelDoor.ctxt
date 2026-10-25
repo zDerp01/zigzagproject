@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=levelDoor
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ levelDoor\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=levelDoor()
+comment1.text=\r\n\ levelDoor\ -\ construtor\ que\ redimensiona\ o\ sprite\ para\ fins\ est\u00E9ticos.\r\n
+comment2.params=
+comment2.target=void\ OnInteract()
+comment2.text=\r\n\ OnInteract\ -\ m\u00E9todo\ que\ trata\ da\ l\u00F3gica\ da\ intera\u00E7\u00E3o\ do\ jogador\ com\ este\ spot,\ transportando\ os\ jogadores\ assim\ para\ o\ pr\u00F3ximo\ n\u00EDvel.\r\n
+numComments=3
