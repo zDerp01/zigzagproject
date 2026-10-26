@@ -38,6 +38,14 @@ public class phone_cabin extends Spots
     }
     
     /**
+     * phone_cabin - OVERLOAD: construtor que permite definir se o objeto aparece com clue.
+     */
+    public phone_cabin(boolean hasClue) {
+        this();
+        SetHasClue(hasClue);
+    }
+    
+    /**
      * addedToWorld - trata de atribuir rng à variável rng, com base na seed do nível.
      */
     @Override
@@ -60,9 +68,8 @@ public class phone_cabin extends Spots
             
             int randomX = rng.nextInt(3400) + 300;
             
-            phone_cabin newCabin = new phone_cabin();
+            phone_cabin newCabin = new phone_cabin(this.HasClue());
             newCabin._attempts = this._attempts + 1;
-            newCabin.SetHasClue(this.HasClue());
             
             level.addScrollObject(newCabin, randomX, 720);
             replaceEntitiesAndPointsOnTop();

@@ -74,7 +74,7 @@ public class audio_controller extends Controllers
     }
     
     /**
-     * PlayMusic - para a música de fundo.
+     * StopMusic - para a música de fundo.
      */
     public void StopMusic() {
         _menuMusic.stop();
@@ -85,6 +85,14 @@ public class audio_controller extends Controllers
      */
     public void PlaySFX(GreenfootSound sound) {
         if (sound != _stepSfx) sound.stop();
+        sound.play();
+    }
+
+    /**
+     * PlaySFX - OVERLOAD: toca um efeito sonoro a partir do nome do ficheiro.
+     */
+    public void PlaySFX(String soundFile) {
+        GreenfootSound sound = new GreenfootSound(soundFile);
         sound.play();
     }
 }

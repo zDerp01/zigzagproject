@@ -23,6 +23,14 @@ public class trash_bin extends Containers
     }
     
     /**
+     * trash_bin - OVERLOAD: construtor que permite definir se o objeto aparece com clue.
+     */
+    public trash_bin(boolean hasClue) {
+        this();
+        SetHasClue(hasClue);
+    }
+    
+    /**
      * addedToWorld - trata de atribuir rng à variável rng, com base na seed do nível.
      */
     @Override
@@ -45,9 +53,8 @@ public class trash_bin extends Containers
             
             int randomX = rng.nextInt(3300) + 300;
             
-            trash_bin newTrash = new trash_bin();
+            trash_bin newTrash = new trash_bin(this.HasClue());
             newTrash._attempts = this._attempts + 1;
-            newTrash.SetHasClue(this.HasClue());
             
             level.addScrollObject(newTrash, randomX, 747);
             replaceEntitiesAndPointsOnTop();
