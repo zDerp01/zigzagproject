@@ -137,7 +137,7 @@ public class clue_controller extends Controllers
      */
     public void act()
     {
-        setImage(new GreenfootImage("Clues: " + (_collectedClues+_totalClues) + "/" + (_clues +_totalClues), 28, Color.GRAY, null));
+        setImage(new GreenfootImage("Clues: " + (_collectedClues+_totalCollectedClues) + "/" + (_clues +_totalClues), 28, Color.GRAY, null));
     }
     
     
